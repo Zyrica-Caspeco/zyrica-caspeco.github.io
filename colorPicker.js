@@ -2,11 +2,18 @@
 
     javascript:
     (() => {
-        const src = 'insert url here';
-        document.querySelector(`script[src='${src}']`)?.remove();
-        const script = document.createElement('script');
-        script.src = src;
-        document.head.appendChild(script);
+        const ele = document.createElement('script');
+        ele.src = 'https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js';
+        document.head.appendChild(ele);
+
+        ele.addEventListener('load', () => {
+            const src = 'https://raw.githubusercontent.com/Zyrica-Caspeco/tools/master/colorPicker.js';
+            axios.get(src).then(({data}) => {
+                const script = document.createElement('script');
+                script.innerHTML = data;
+                document.head.appendChild(script);
+            });
+        });
     })();
 
 // */
