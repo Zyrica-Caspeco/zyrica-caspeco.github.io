@@ -14,9 +14,9 @@
 function init() {
     let css = s => s;
 
-    document.querySelector('zyrica')?.remove();
+    document.querySelector('colorpicker')?.remove();
 
-    const ele = document.createElement('zyrica');
+    const ele = document.createElement('colorpicker');
     ele.style = css`
       position: absolute;
       top: 100px;
