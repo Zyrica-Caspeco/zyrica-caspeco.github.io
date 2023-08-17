@@ -145,23 +145,27 @@
     function createWidget() {
         let css = s => s;
 
-        document.querySelector('colorpicker')?.remove();
+        let ele = document.querySelector('colorpicker');
 
-        const ele = document.createElement('colorpicker');
-        ele.style = css`
-          position: absolute;
-          top: 100px;
-          left: 100px;
-          max-height: 50%;
-          overflow: auto;
+        if (ele) {
+            ele.innerHTML = '';
+        } else {
+            ele = document.createElement('colorpicker');
+            ele.style = css`
+              position: absolute;
+              top: 100px;
+              left: 100px;
+              max-height: 50%;
+              overflow: auto;
     
-          z-index: 99999999999;
-          padding: 20px;
-          color: white;
-          background: rgba(0, 0, 0, 0.8);
-        `;
-        makeDraggable(ele);
+              z-index: 99999999999;
+              padding: 20px;
+              color: white;
+              background: rgba(0, 0, 0, 0.8);
+            `;
+            makeDraggable(ele);
 
+        }
         ele.appendChild(createThemePicker());
 
         getThemeVariableNames().map(colorSelection).forEach(color => {
@@ -180,7 +184,6 @@
     }
     function logCurrentTheme() {
         const names = Object.keys(themes['rainbow']);
-        console.log('logCurrentTheme', names.map(getColor));
 
     }
 
@@ -223,7 +226,6 @@
 
     function getColor(name) {
         const root = document.querySelector(':root');
-        console.log('getColor', name, getComputedStyle(root).getPropertyValue(name));
         return getComputedStyle(root).getPropertyValue(name);
     }
     function setColor(name, color) {
