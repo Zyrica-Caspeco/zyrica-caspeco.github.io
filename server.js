@@ -23,6 +23,16 @@ app.use('*', (req, res) => {
 });
 app.listen(1337);
 
+// Bookmark.js
+rollup.watch({
+    input: 'bookmark.js',
+    output: {
+        format: 'iife',
+        file: 'dist/bookmark.js',
+    },
+    plugins: [json(), terser()],
+});
+
 // Build hmr.js
 rollup.watch({
     input: 'hmr/hmr.js',
@@ -42,7 +52,7 @@ rollup.watch({
     input: 'color-picker/index.js',
     output: [{
         format: 'iife',
-        file: 'dist/colorPicker.js',
+        file: 'dist/index.js',
     }, {
         format: 'iife',
         file: 'colorPicker.js',
