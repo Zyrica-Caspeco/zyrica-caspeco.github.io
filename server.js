@@ -15,8 +15,8 @@ app.ws('/hmr', (ws, req) => {
     ws.send('colorPicker.js');
 });
 
-app.get('/colorPicker.js', (req, res) => {
-    res.sendFile(path.resolve('dist/colorPicker.js'));
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve('dist/index.js'));
 });
 app.use('*', (req, res) => {
    res.redirect('/colorPicker.js');
