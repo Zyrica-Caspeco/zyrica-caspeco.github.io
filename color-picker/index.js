@@ -1,8 +1,8 @@
 import themes from './themes.json';
 
 if (window.ca) {
-    window.ca.addEventListener('bookingEvent', e => {
-        console.log('Got booking event', e);
+    window.ca.addEventListener('bookingEvent', (...args) => {
+        console.log('Got booking event', ...args);
     })
 }
 

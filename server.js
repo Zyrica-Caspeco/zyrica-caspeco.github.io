@@ -53,9 +53,6 @@ rollup.watch({
     output: [{
         format: 'iife',
         file: 'dist/index.js',
-    }, {
-        format: 'iife',
-        file: 'colorPicker.js',
     }],
     plugins: [json(), terser()],
 }).on('event', event => {
