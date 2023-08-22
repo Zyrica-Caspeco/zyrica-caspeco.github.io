@@ -1,12 +1,12 @@
 import themes from './themes.json';
 
-if (ca) {
-    ca.addEventListener('bookingEvent', e => {
+if (window.ca) {
+    window.ca.addEventListener('bookingEvent', e => {
         console.log('Got booking event', e);
     })
 }
 
-const themeDetected = getColor('--theme-colors-primary');
+const themeDetected = getColor('--theme-colors-primary-wlv');
 if (themeDetected) {
     let css = s => s;
     let ele = document.querySelector('colorpicker');

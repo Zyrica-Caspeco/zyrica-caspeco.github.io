@@ -4,7 +4,7 @@ function log(...args) {
 }
 
 let ws;
-const elements = {};
+let ele;
 
 connect();
 
@@ -23,14 +23,9 @@ function onClose(){
     log('disconnected');
     setTimeout(connect, 100);
 }
-function onMessage({data}) {
-    const file = data;
-    log('reloading', file);
-    if (elements[file]) {
-        elements[file].remove();
-    }
-    const ele = document.createElement('script');
-    ele.src = `http://localhost:1337/${file}`;
+function onMessage() {
+    ele?.remove();
+    ele = document.createElement('script');
+    ele.src = `http://localhost:1337/`;
     document.head.appendChild(ele);
-    elements[file] = ele;
 }

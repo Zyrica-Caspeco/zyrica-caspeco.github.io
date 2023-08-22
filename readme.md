@@ -3,4 +3,4 @@ javascript: !function(){"use strict";(()=>{const t=document.createElement("scrip
 
 ```
 
-![alt text](https://github.com/Zyrica-Caspeco/tools/blob/master/inject-color-picker.gif?raw=true)
+![alt text](https://github.com/Zyrica-Caspeco/tools/blob/master/inject-color-picker.gif?raw=true) 

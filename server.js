@@ -35,7 +35,7 @@ rollup.watch({
 
 // Build hmr.js
 rollup.watch({
-    input: 'hmr/hmr.js',
+    input: 'hmr.js',
     output: {
         format: 'iife',
         file: 'dist/hmr.js',
