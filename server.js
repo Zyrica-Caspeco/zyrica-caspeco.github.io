@@ -59,7 +59,6 @@ rollup.watch({
     if (event.code === 'ERROR') {
         console.log(event.error);
     } else if (event.code === 'END') {
-        console.log('colorPicker.js');
         for (let i = connections.length - 1; i >= 0; i--) {
             const ws = connections[i];
             if (ws.readyState === 1) {
