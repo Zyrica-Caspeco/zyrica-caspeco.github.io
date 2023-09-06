@@ -1,4 +1,8 @@
 import themes from './themes.json';
+let css = s => s;
+const isIframe = window.self !== window.top;
+const name = isIframe ? 'iframe' : 'parent';
+const scriptSrc = document.currentScript.src;
 
 if (window.ca) {
     window.ca.addEventListener('bookingEvent', (...args) => {
@@ -6,9 +10,80 @@ if (window.ca) {
     })
 }
 
+function getIframe() {
+    const allIframes = [...document.querySelectorAll('iframe')];
+    const bookingIframe = allIframes.find(iframe => iframe.src.includes('localhost') || iframe.src.includes('caspeco'));
+    return bookingIframe;
+}
+function sendToIframe(message) {
+    const iframe = getIframe();
+    if (!iframe) return;
+    iframe.contentWindow.postMessage('load ' + scriptSrc, '*');
+    iframe.contentWindow.postMessage(message, '*');
+}
+
+const createIframe = () => {
+    function updateIframeWidth() {
+        iframe.width = document.body.clientWidth + 'px';
+    }
+
+    let iframe = document.getElementById('localhostIframe');
+
+    if (!iframe) {
+        iframe = document.createElement('iframe');
+        document.body.appendChild(iframe);
+
+        addEventListener('resize', updateIframeWidth);
+    }
+
+    iframe.src = 'http://localhost:8080/?isWebBooking=true&system=se__testbb&unitId=14'
+    iframe.id = 'localhostIframe';
+    iframe.height = window.innerHeight * 0.75;
+    window.iframe = iframe;
+
+    updateIframeWidth();
+}
+
+if (isIframe) {
+    subscribeToResize();
+} else {
+    // createIframe();
+}
+let observer;
+function subscribeToResize() {
+    if (observer) return;
+    document.body.style = 'overflow: hidden;';
+    const target = document.querySelector('#root').querySelector('div');
+    observer = new ResizeObserver((entries) => {
+        const height = Math.ceil(entries[0].target.getBoundingClientRect().height);
+        window.parent.postMessage('height ' + height, '*');
+    });
+    observer.observe(target);
+}
+window.addEventListener('message', e => {
+    const msg = '' + e.data;
+    if (msg === 'loaded') {
+        sendToIframe('load ' + scriptSrc);
+    } else if (msg.match(/^set/)) { // set color
+        const [_, name, color] = msg.split(' ');
+        setColor(name, color);
+    } else if (msg.match(/^height/)) {
+        getIframe().height = msg.split(' ')[1] + 'px';
+    } else if (msg.match(/^load/)) {
+        // load script
+    } else if (e.data?.request) {
+        // request
+    } else {
+        console.log(name, 'got', e.data);
+    }
+});
+if (window.parent) window.parent.postMessage('loaded', '*');
+
+
 
 // Boknings demo brödernas
-if (document.location.href.includes('www.brodernas.nu/restauranger')) {
+const isDemo = document.location.href.includes('www.brodernas.nu/restauranger');
+if (isDemo) {
     const links = [...document.querySelectorAll('a')].filter(e => e.href.match(/^https:\/\/cloud\.caspeco\.se\/public\/webBooking/));
     links.forEach(link => {
         link.onclick = () => {
@@ -17,38 +92,37 @@ if (document.location.href.includes('www.brodernas.nu/restauranger')) {
 
             console.log({ system, unitId });
 
+
+            let src = scriptSrc.includes('localhost') ? 'http://localhost:8080' : 'https://webbooking.dev.caspeco.net';
+
             const iframe = document.createElement('iframe');
-            iframe.src = "https://webbooking.dev.caspeco.net/?isWebBooking=true&system=" + system + "&unitId=" + unitId;
+            iframe.src = src + "/?isWebBooking=true&system=" + system + "&unitId=" + unitId;
             iframe.style = css`
-              margin-left: -25px;
-                border: none;
-            ` + 'height: ' + (window.innerHeight- 60) + 'px;'
-            + 'width: ' + window.innerWidth + 'px;';
+              border: 1px solid #9e9e9e;
+              padding: 1px;
+              padding-right: 2px;
+              flex: 1;
+            `;
 
             const container = link.parentElement.parentElement;
-            container.style = css`
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                border-left:none;
-                border-right:none;
-                margin-left: 0;
-                margin-right: 0;
-                padding-left: 0;
-                padding-right: 0;
-            ` + 'height: ' + window.innerHeight + 'px';
-            [...container.children].forEach(child => {
-                child.remove();
-            });
-            container.appendChild(iframe);
+            for (let i = 0; i < container.children.length; i++) {
+                container.children[i].style.display = 'none';
+            }
+            container.style.border =  'none';
+            container.style.padding = '0';
+            container.style.display = 'flex';
+            container.append(iframe);
 
             return false;
         };
     });
 }
 
+
+// Create widget
 const themeDetected = getColor('--theme-colors-primary-wlv');
-if (themeDetected) {
+const hasIframe = getIframe();
+if ((hasIframe || themeDetected) && !isIframe && !isDemo) {
     let css = s => s;
     let ele = document.querySelector('zTools');
     if (ele) {
@@ -56,7 +130,7 @@ if (themeDetected) {
     } else {
         ele = document.createElement('zTools');
         ele.style = css`
-          position: absolute;
+          position: fixed;
           top: 100px;
           left: 100px;
           max-height: 50%;
@@ -71,7 +145,7 @@ if (themeDetected) {
 
         document.body.appendChild(ele);
     }
-    
+
     ele.appendChild(createThemePicker());
     getThemeVariableNames().map(colorSelection).forEach(color => {
         ele.appendChild(color);
@@ -147,11 +221,18 @@ function makeDraggable(ele) {
 
 function getColor(name) {
     const root = document.querySelector(':root');
-    return getComputedStyle(root).getPropertyValue(name);
+    let color = getComputedStyle(root).getPropertyValue(name);
+    if (!color) {
+        sendToIframe(`get ${name}`);
+        color = themes.Default[name];
+    }
+    return color;
 }
 function setColor(name, color) {
     const root = document.querySelector(':root');
     root.style.setProperty(name, color);
+
+    sendToIframe(`set ${name} ${color}`);
 }
 
 function colorSelection(name) {
