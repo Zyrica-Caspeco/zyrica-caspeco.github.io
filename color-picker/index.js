@@ -117,7 +117,9 @@ window.addEventListener('message', e => {
         const [_, name, color] = msg.split(' ');
         setColor(name, color);
     } else if (msg.match(/^height/)) {
-        getIframe().height = msg.split(' ')[1] + 'px';
+        const iframe = getIframe();
+        iframe.height = msg.split(' ')[1] + 'px';
+        iframe.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
     } else if (msg.match(/^load/)) {
         // load script
     } else if (msg === 'close') {
@@ -178,8 +180,6 @@ if (isDemo) {
             container.style.padding = '0';
             container.style.display = 'flex';
             container.append(iframe);
-
-            iframe.scrollIntoView(true);
 
             return false;
         };
