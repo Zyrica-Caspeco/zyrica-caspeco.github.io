@@ -14,7 +14,7 @@
               padding: 1px;
               padding-right: 2px;
               flex: 1;
-            `;const s=e.parentElement.parentElement;for(let e=0;e<s.children.length;e++)s.children[e].style.display="none";return s.style.border="none",s.style.padding="0",s.style.display="flex",s.append(l),!1}}))}const v=u("--theme-colors-primary-wlv");if((c()||v)&&!t&&!h){let o=e=>e,t=document.querySelector("zTools");t?t.innerHTML="":(t=document.createElement("zTools"),t.style=o`
+            `;const s=e.parentElement.parentElement;for(let e=0;e<s.children.length;e++)s.children[e].style.display="none";return s.style.border="none",s.style.padding="0",s.style.display="flex",s.append(l),l.scrollIntoView(!0),!1}}))}const v=u("--theme-colors-primary-wlv");if((c()||v)&&!t&&!h){let o=e=>e,t=document.querySelector("zTools");t?t.innerHTML="":(t=document.createElement("zTools"),t.style=o`
           position: fixed;
           top: 100px;
           left: 100px;

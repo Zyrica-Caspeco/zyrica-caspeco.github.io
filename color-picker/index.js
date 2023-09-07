@@ -179,6 +179,8 @@ if (isDemo) {
             container.style.display = 'flex';
             container.append(iframe);
 
+            iframe.scrollIntoView(true);
+
             return false;
         };
     });
