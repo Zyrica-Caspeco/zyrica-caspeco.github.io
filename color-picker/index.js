@@ -12,8 +12,7 @@ if (window.ca) {
 
 function getIframe() {
     const allIframes = [...document.querySelectorAll('iframe')];
-    const bookingIframe = allIframes.find(iframe => iframe.src.includes('localhost') || iframe.src.includes('caspeco'));
-    return bookingIframe;
+    return allIframes.find(iframe => iframe.src.includes('localhost') || iframe.src.includes('caspeco'));
 }
 function sendToIframe(message) {
     const iframe = getIframe();
@@ -64,6 +63,9 @@ window.addEventListener('message', e => {
     const msg = '' + e.data;
     if (msg === 'loaded') {
         sendToIframe('load ' + scriptSrc);
+        if (isDemo) {
+            setTheme('Brödernas');
+        }
     } else if (msg.match(/^set/)) { // set color
         const [_, name, color] = msg.split(' ');
         setColor(name, color);
@@ -79,6 +81,18 @@ window.addEventListener('message', e => {
 });
 if (window.parent) window.parent.postMessage('loaded', '*');
 
+function downloadTheme() {
+    const theme = {};
+    Object.keys(themes.Default).forEach(name => {
+        theme[name] = getColor(name);
+    });
+    const a = document.createElement('a');
+    const themeString = JSON.stringify(theme, null, "\t");
+    const dataString = "data:text/json;charset=utf-8," + encodeURIComponent(themeString);
+    a.setAttribute("href", dataString);
+    a.setAttribute("download", "theme.json");
+    a.click();
+}
 
 
 // Boknings demo brödernas
@@ -147,11 +161,46 @@ if ((hasIframe || themeDetected) && !isIframe && !isDemo) {
     }
 
     ele.appendChild(createThemePicker());
+    ele.appendChild(createSaveAndLoadTheme());
     getThemeVariableNames().map(colorSelection).forEach(color => {
         ele.appendChild(color);
     });
 }
 
+function uploadTheme() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = () => {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            const theme = JSON.parse(reader.result);
+            Object.keys(theme).forEach(name => {
+                setColor(name, theme[name]);
+            });
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
+
+function createSaveAndLoadTheme() {
+    const container = document.createElement('div');
+
+    const download = document.createElement('button');
+    download.style = `all: revert; margin-right: 10px; margin-bottom: 10px;`;
+    download.innerHTML = 'Save';
+    download.onclick = downloadTheme;
+    container.appendChild(download);
+
+    const upload = document.createElement('button');
+    upload.style = `all: revert; margin-bottom: 10px;`;
+    upload.innerHTML = 'Load';
+    upload.onclick = uploadTheme;
+    container.appendChild(upload);
+
+    return container;
+}
 function createThemePicker() {
     const ele = document.createElement('div');
     ele.style = 'margin-bottom: 10px;';
