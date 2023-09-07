@@ -59,12 +59,59 @@ function subscribeToResize() {
     });
     observer.observe(target);
 }
+function close() {
+    const iframe = getIframe();
+    if (!iframe) return;
+    const container = iframe.parentElement;
+    iframe.remove();
+    container.style = '';
+    [...container.children].forEach(child => child.style = '');
+}
+function sendToParent(message) {
+    window.parent.postMessage(message, '*');
+}
+function addCloseButton() {
+    const container = document.querySelector('header');
+    if (!container.children[2]) {
+        setTimeout(addCloseButton, 10);
+        return;
+    }
+    container.children[2].remove();
+
+    const div = document.createElement('div');
+    div.style = css`
+      color: white;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    `;
+
+    const button = document.createElement('button');
+    button.style = css`
+      width: 40px;
+      height: 40px;
+    `;
+    button.onclick = () => sendToParent('close');
+    div.appendChild(button);
+
+    const icon = document.createElement('div');
+    icon.className = 'fa fa-close';
+    icon.style = css`
+      font-size: 20px;  
+    `;
+    button.appendChild(icon);
+
+    container.appendChild(div);
+}
+
 window.addEventListener('message', e => {
     const msg = '' + e.data;
     if (msg === 'loaded') {
         sendToIframe('load ' + scriptSrc);
         if (isDemo) {
             setTheme('Brödernas');
+            sendToIframe('addCloseButton');
         }
     } else if (msg.match(/^set/)) { // set color
         const [_, name, color] = msg.split(' ');
@@ -73,6 +120,10 @@ window.addEventListener('message', e => {
         getIframe().height = msg.split(' ')[1] + 'px';
     } else if (msg.match(/^load/)) {
         // load script
+    } else if (msg === 'close') {
+        close();
+    } else if (msg === 'addCloseButton') {
+        addCloseButton();
     } else if (e.data?.request) {
         // request
     } else {
@@ -101,6 +152,7 @@ if (isDemo) {
     const links = [...document.querySelectorAll('a')].filter(e => e.href.match(/^https:\/\/cloud\.caspeco\.se\/public\/webBooking/));
     links.forEach(link => {
         link.onclick = () => {
+            close();
             const system = link.href.match(/system=([a-z]*_[a-z]*)/)[1];
             const unitId = link.href.match(/unitId=([0-9]*)/)[1];
 
