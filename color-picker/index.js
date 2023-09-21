@@ -214,11 +214,21 @@ if ((hasIframe || themeDetected) && !isIframe && !isDemo) {
         document.body.appendChild(ele);
     }
 
+    ele.appendChild(createButton('Close', () => ele.remove()));
+    ele.appendChild(createButton('Find Caspeco elements', printAllCaspecoElements));
     ele.appendChild(createThemePicker());
     ele.appendChild(createSaveAndLoadTheme());
     getThemeVariableNames().map(colorSelection).forEach(color => {
         ele.appendChild(color);
     });
+}
+
+function createButton(name, onClick) {
+    const button = document.createElement('button');
+    button.style = css`all: revert;margin-right: 10px;margin-bottom: 10px`;
+    button.innerHTML = name;
+    button.onclick = onClick;
+    return button;
 }
 
 function uploadTheme() {
@@ -258,6 +268,17 @@ function createSaveAndLoadTheme() {
 function createThemePicker() {
     const ele = document.createElement('div');
     ele.style = 'margin-bottom: 10px;';
+    const h1 = document.createElement('h1');
+    h1.innerHTML = 'Theme';
+    h1.style = css`
+      all: revert;
+      font-size: 20px;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    `
+    ele.appendChild(h1);
     Object.keys(themes).forEach(themeName => {
         const button = document.createElement('button');
         button.style = `all: revert;margin-right:10px;`;
@@ -320,7 +341,15 @@ function makeDraggable(ele) {
     ele.addEventListener('mousedown', draggable);
     ele.addEventListener('touchstart', draggable);
 }
-
+function printAllCaspecoElements() {
+    const log = (ele) => console.log(ele);
+    const classFilter = ele => {
+        return ele.className.includes && ele.className.includes('caspeco');
+    }
+    const contentFilter = ele => ele.innerHTML.includes('caspeco');
+    [...document.querySelectorAll('script')].filter(contentFilter).forEach(log);
+    [...document.querySelectorAll('*')].filter(classFilter).forEach(log);
+}
 
 function getColor(name) {
     const root = document.querySelector(':root');
