@@ -129,7 +129,7 @@ window.addEventListener('message', e => {
     } else if (e.data?.request) {
         // request
     } else {
-        console.log(name, 'got', e.data);
+        // console.log(name, 'got', e.data);
     }
 });
 if (window.parent) window.parent.postMessage('loaded', '*');
