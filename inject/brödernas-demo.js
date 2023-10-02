@@ -58,7 +58,7 @@ export function addCloseButton() {
             console.log({ system, unitId });
 
 
-            let src = scriptSrc.includes('localhost') ? 'http://localhost:8080' : 'https://webbooking.dev.caspeco.net';
+            let src = scriptSrc.includes('localhost') ? 'http://localhost:8080' : 'https://booking.dev.caspeco.net';
 
             const iframe = document.createElement('iframe');
             iframe.src = src + "/?isWebBooking=true&system=" + system + "&unitId=" + unitId;

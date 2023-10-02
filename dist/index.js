@@ -9,7 +9,7 @@
       height: 40px;
     `,n.onclick=()=>{return e="close",void window.parent.postMessage(e,"*");var e},t.appendChild(n);const r=document.createElement("div");r.className="fa fa-close",r.style=o`
       font-size: 20px;  
-    `,n.appendChild(r),e.appendChild(t)}(()=>{if(!l)return;[...document.querySelectorAll("a")].filter((e=>e.href.match(/^https:\/\/cloud\.caspeco\.se\/public\/webBooking/))).forEach((t=>{t.onclick=()=>{s();const n=t.href.match(/system=([a-z]*_[a-z]*)/)[1],r=t.href.match(/unitId=([0-9]*)/)[1];console.log({system:n,unitId:r});let c=e.includes("localhost")?"http://localhost:8080":"https://webbooking.dev.caspeco.net";const l=document.createElement("iframe");l.src=c+"/?isWebBooking=true&system="+n+"&unitId="+r,l.style=o`
+    `,n.appendChild(r),e.appendChild(t)}(()=>{if(!l)return;[...document.querySelectorAll("a")].filter((e=>e.href.match(/^https:\/\/cloud\.caspeco\.se\/public\/webBooking/))).forEach((t=>{t.onclick=()=>{s();const n=t.href.match(/system=([a-z]*_[a-z]*)/)[1],r=t.href.match(/unitId=([0-9]*)/)[1];console.log({system:n,unitId:r});let c=e.includes("localhost")?"http://localhost:8080":"https://booking.dev.caspeco.net";const l=document.createElement("iframe");l.src=c+"/?isWebBooking=true&system="+n+"&unitId="+r,l.style=o`
               border: 1px solid #9e9e9e;
               padding: 1px;
               padding-right: 2px;
