@@ -33,11 +33,50 @@ if ((hasIframe || themeDetected) && !isIframe && !isDemo) {
         document.body.appendChild(ele);
     }
 
-    ele.appendChild(createButton('Close', () => ele.remove()));
+    ele.appendChild(createCloseButton());
     ele.appendChild(createButton('Find Caspeco elements', printAllCaspecoElements));
     ele.appendChild(theme)
 }
 
+function createCloseButton() {
+    const a = document.createElement('a');
+    a.style = css`
+      display: inline-block;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 20px;
+      height: 20px;
+      transform: rotate(45deg);
+    `;
+    a.onclick = (e) => {
+        e.preventDefault();
+        a.parentElement.remove();
+    };
+    const horizontal = document.createElement('div');
+    horizontal.style = css`
+        width: 20px;
+        border: 2px solid white;
+        border-radius: 2px;
+        position: absolute;
+        top: 8px;
+        left: 0;
+    `;
+    a.appendChild(horizontal);
+
+    const vertical = document.createElement('div');
+    vertical.style = css`
+        height: 20px;
+        border: 2px solid white;
+        border-radius: 2px;
+        position: absolute;
+        top: 0;
+        left: 8px;
+    `;
+    a.appendChild(vertical);
+
+    return a;
+}
 function createButton(name, onClick) {
     const button = document.createElement('button');
     button.style = css`all: revert;margin-right: 10px;margin-bottom: 10px`;

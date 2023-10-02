@@ -52,8 +52,14 @@ export function printAllCaspecoElements() {
         return ele.className.includes && ele.className.includes('caspeco');
     }
     const contentFilter = ele => ele.innerHTML.includes('caspeco');
-    [...document.querySelectorAll('script')].filter(contentFilter).forEach(log);
-    [...document.querySelectorAll('*')].filter(classFilter).forEach(log);
+    const contents  = [...document.querySelectorAll('script')].filter(contentFilter);
+    const classes = [...document.querySelectorAll('*')].filter(classFilter);
+    const elements = [...contents, ...classes];
+    if (elements.length) {
+        elements.forEach(log);
+    } else {
+        console.log('Could not find any Caspeco elements');
+    }
 }
 
 export function getColor(name) {

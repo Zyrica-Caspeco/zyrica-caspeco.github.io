@@ -55,12 +55,12 @@ rollup.watch({
     }
 });
 
-// build colorPicker.js
+// Build inject.js
 rollup.watch({
     input: 'inject/index.js',
     output: [{
         format: 'iife',
-        file: 'dist/inject.js',
+        file: 'dist/index.js',
     }],
     plugins: [json(), terser()],
 }).on('event', event => {
