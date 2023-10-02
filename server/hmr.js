@@ -24,6 +24,7 @@ function onClose(){
     setTimeout(connect, 100);
 }
 function onMessage() {
+    log('update');
     ele?.remove();
     ele = document.createElement('script');
     ele.src = `http://localhost:1337/`;

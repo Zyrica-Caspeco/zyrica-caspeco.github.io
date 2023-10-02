@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "nodemon server.js --watch server.js"
+    "start": "nodemon server --watch server/index.js"
   },
   "dependencies": {
     "@rollup/plugin-json": "^6.0.0",
