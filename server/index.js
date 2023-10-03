@@ -16,7 +16,7 @@ app.ws('/hmr', (ws, req) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve('dist/inject.js'));
+    res.sendFile(path.resolve('dist/index.js'));
 });
 app.use('*', (req, res) => {
    res.redirect('/');

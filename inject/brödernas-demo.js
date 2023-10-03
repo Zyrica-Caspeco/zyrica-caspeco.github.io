@@ -55,13 +55,10 @@ export function addCloseButton() {
             const system = link.href.match(/system=([a-z]*_[a-z]*)/)[1];
             const unitId = link.href.match(/unitId=([0-9]*)/)[1];
 
-            console.log({ system, unitId });
-
-
             let src = scriptSrc.includes('localhost') ? 'http://localhost:8080' : 'https://booking.dev.caspeco.net';
 
             const iframe = document.createElement('iframe');
-            iframe.src = src + "/?isWebBooking=true&system=" + system + "&unitId=" + unitId;
+            iframe.src = src + "/?system=" + system + "&unitId=" + unitId;
             iframe.style = css`
               border: 1px solid #9e9e9e;
               padding: 1px;

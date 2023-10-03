@@ -1,6 +1,6 @@
 import { isIframe, scriptSrc } from "./globals";
 import { isDemo, addCloseButton, close } from "./brödernas-demo";
-import { setTheme } from "./on-clicks";
+import { setTheme, setColor } from "./on-clicks";
 
 export function getIframe() {
     const allIframes = [...document.querySelectorAll('iframe')];
