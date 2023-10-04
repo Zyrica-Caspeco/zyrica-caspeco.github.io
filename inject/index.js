@@ -8,7 +8,7 @@ import {
 import { getIframe } from "./iframe";
 import { createThemePicker, getColor } from "./sections/theme";
 import {createSection, sections} from "./sections/index";
-import { createCssElement } from "./sections/css";
+import "./event-handler";
 
 const themeDetected = getColor('--theme-colors-primary-wlv');
 const hasIframe = getIframe();
