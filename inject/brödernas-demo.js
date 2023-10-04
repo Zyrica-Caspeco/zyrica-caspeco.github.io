@@ -1,5 +1,5 @@
-import { scriptSrc, css } from "./globals";
-import {getIframe, sendToParent} from "./iframe";
+import { css, isLocalhost } from "./globals";
+import { getIframe, sendToParent } from "./iframe";
 
 export const isDemo = document.location.href.includes('www.brodernas.nu/restauranger');
 
@@ -55,7 +55,7 @@ export function addCloseButton() {
             const system = link.href.match(/system=([a-z]*_[a-z]*)/)[1];
             const unitId = link.href.match(/unitId=([0-9]*)/)[1];
 
-            let src = scriptSrc.includes('localhost') ? 'http://localhost:8080' : 'https://booking.dev.caspeco.net';
+            let src = isLocalhost ? 'http://localhost:8080' : 'https://booking.dev.caspeco.net';
 
             const iframe = document.createElement('iframe');
             iframe.src = src + "/?system=" + system + "&unitId=" + unitId;

@@ -1,14 +1,15 @@
 const rollup = require('rollup');
 const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
-const path = require('path');
+const { resolve } = require('path');
 const app = require('express')();
+const fs = require('fs');
 require('express-ws')(app);
 
 const connections = [];
 
 app.get('/hmr.js', (req, res) => {
-    res.sendFile(path.resolve('dist/hmr.js'));
+    res.sendFile(resolve('dist/hmr.js'));
 });
 app.ws('/hmr', (ws, req) => {
     connections.push(ws);
@@ -16,7 +17,7 @@ app.ws('/hmr', (ws, req) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve('dist/index.js'));
+    res.sendFile(resolve('dist/index.js'));
 });
 app.use('*', (req, res) => {
    res.redirect('/');
@@ -78,3 +79,30 @@ rollup.watch({
         }
     }
 });
+
+// Build css
+let delay;
+let changedFiles = {};
+fs.watch(resolve('css'), (event, filename) => {
+    if (delay) {
+        clearTimeout(delay);
+    }
+    changedFiles[filename] = true;
+    delay = setTimeout(() => {
+        console.log('css', 'changed', Object.keys(changedFiles));
+
+    }, 200);
+});
+let files = fs.readdirSync(resolve('css'));
+const { execSync } = require('child_process');
+const { emptyDir } = require('fs-extra');
+emptyDir(resolve('dist/css'));
+files.filter(filename => filename.endsWith('.less')).forEach(filename => {
+    const src = resolve('css', filename);
+    const dest = resolve('dist/css', filename.replace('.less', '.css'));
+    const cmd = `lessc ${src} ${dest}`;
+    execSync(cmd);
+});
+
+files = files.map(filename => filename.replace('.less', '.css'));
+fs.writeFileSync('dist/css.json', JSON.stringify({files}));

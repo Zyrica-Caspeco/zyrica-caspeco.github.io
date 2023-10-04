@@ -1,12 +1,14 @@
 import "./booking-events.js";
-import {css, isIframe} from "./globals";
-import {isDemo} from "./brödernas-demo";
+import { css, isIframe } from "./globals";
+import { isDemo } from "./brödernas-demo";
 import {
-    getColor,
+    createButton,
     printAllCaspecoElements,
 } from "./on-clicks";
-import { getIframe, sendToParent } from "./iframe";
-import { ele as theme } from "./theme";
+import { getIframe } from "./iframe";
+import { createThemePicker, getColor } from "./sections/theme";
+import {createSection, sections} from "./sections/index";
+import { createCssElement } from "./sections/css";
 
 const themeDetected = getColor('--theme-colors-primary-wlv');
 const hasIframe = getIframe();
@@ -35,7 +37,10 @@ if ((hasIframe || themeDetected) && !isIframe && !isDemo) {
 
     ele.appendChild(createCloseButton());
     ele.appendChild(createButton('Find Caspeco elements', printAllCaspecoElements));
-    ele.appendChild(theme)
+    ele.appendChild(sections);
+
+    createSection('Theme', createThemePicker);
+    // createSection('Css', createCssElement);
 }
 
 function createCloseButton() {
@@ -76,13 +81,6 @@ function createCloseButton() {
     a.appendChild(vertical);
 
     return a;
-}
-function createButton(name, onClick) {
-    const button = document.createElement('button');
-    button.style = css`all: revert;margin-right: 10px;margin-bottom: 10px`;
-    button.innerHTML = name;
-    button.onclick = onClick;
-    return button;
 }
 
 

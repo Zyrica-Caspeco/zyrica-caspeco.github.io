@@ -1,6 +1,4 @@
-import { isIframe, scriptSrc } from "./globals";
-import { isDemo, addCloseButton, close } from "./brödernas-demo";
-import { setTheme, setColor } from "./on-clicks";
+import { scriptSrc } from "./globals";
 
 export function getIframe() {
     const allIframes = [...document.querySelectorAll('iframe')];
@@ -35,13 +33,8 @@ const createIframe = () => {
     updateIframeWidth();
 }
 
-if (isIframe) {
-    subscribeToResize();
-} else {
-    // createIframe();
-}
 let observer;
-function subscribeToResize() {
+export function subscribeToResize() {
     if (observer) return;
     document.body.style = 'overflow: hidden;';
     const target = document.querySelector('#root').querySelector('div');
@@ -54,32 +47,3 @@ function subscribeToResize() {
 export function sendToParent(message) {
     window.parent.postMessage(message, '*');
 }
-
-window.addEventListener('message', e => {
-    const msg = '' + e.data;
-    if (msg === 'loaded') {
-        sendToIframe('load ' + scriptSrc);
-        if (isDemo) {
-            setTheme('Brödernas');
-            sendToIframe('addCloseButton');
-        }
-    } else if (msg.match(/^set/)) { // set color
-        const [_, name, color] = msg.split(' ');
-        setColor(name, color);
-    } else if (msg.match(/^height/)) {
-        const iframe = getIframe();
-        iframe.height = msg.split(' ')[1] + 'px';
-        iframe.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
-    } else if (msg.match(/^load/)) {
-        // load script
-    } else if (msg === 'close') {
-        close();
-    } else if (msg === 'addCloseButton') {
-        addCloseButton();
-    } else if (e.data?.request) {
-        // request
-    } else {
-        // console.log(name, 'got', e.data);
-    }
-});
-if (window.parent) window.parent.postMessage('loaded', '*');
