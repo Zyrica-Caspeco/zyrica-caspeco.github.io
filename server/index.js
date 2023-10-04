@@ -2,9 +2,13 @@ const rollup = require('rollup');
 const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
 const { resolve } = require('path');
-const app = require('express')();
+const express = require('express');
+const app = express();
 const fs = require('fs');
 require('express-ws')(app);
+const { execSync } = require('child_process');
+const { emptyDirSync } = require('fs-extra');
+
 
 const connections = [];
 
@@ -13,16 +17,27 @@ app.get('/hmr.js', (req, res) => {
 });
 app.ws('/hmr', (ws, req) => {
     connections.push(ws);
-    ws.send('colorPicker.js');
+    send('index.js');
 });
-
-app.get('/', (req, res) => {
+app.use('/css', express.static(resolve('dist/css')));
+app.get('/index.js', (req, res) => {
     res.sendFile(resolve('dist/index.js'));
 });
 app.use('*', (req, res) => {
-   res.redirect('/');
+   // res.redirect('/');
 });
 app.listen(1337);
+
+function send(msg = '') {
+    for (let i = connections.length - 1; i >= 0; i--) {
+        const ws = connections[i];
+        if (ws.readyState === 1) {
+            ws.send(msg);
+        } else {
+            connections.splice(i, 1);
+        }
+    }
+}
 
 // Bookmark.js
 rollup.watch({
@@ -69,14 +84,7 @@ rollup.watch({
         console.log('inj', event.error);
     } else if (event.code === 'END') {
         console.log('inj', 'built');
-        for (let i = connections.length - 1; i >= 0; i--) {
-            const ws = connections[i];
-            if (ws.readyState === 1) {
-                ws.send('');
-            } else {
-                connections.splice(i, 1);
-            }
-        }
+        send('index.js');
     }
 });
 
@@ -84,25 +92,41 @@ rollup.watch({
 let delay;
 let changedFiles = {};
 fs.watch(resolve('css'), (event, filename) => {
+    if (filename.endsWith('~')) return; // temp files
     if (delay) {
         clearTimeout(delay);
     }
     changedFiles[filename] = true;
     delay = setTimeout(() => {
-        console.log('css', 'changed', Object.keys(changedFiles));
-
+        Object.keys(changedFiles).forEach(compileLessFile);
+        changedFiles = {};
     }, 200);
 });
-let files = fs.readdirSync(resolve('css'));
-const { execSync } = require('child_process');
-const { emptyDir } = require('fs-extra');
-emptyDir(resolve('dist/css'));
-files.filter(filename => filename.endsWith('.less')).forEach(filename => {
+function compileLessFile(filename) {
     const src = resolve('css', filename);
-    const dest = resolve('dist/css', filename.replace('.less', '.css'));
-    const cmd = `lessc ${src} ${dest}`;
-    execSync(cmd);
-});
 
-files = files.map(filename => filename.replace('.less', '.css'));
-fs.writeFileSync('dist/css.json', JSON.stringify({files}));
+    const cssFileName = filename.replace('.less', '.css');
+    const dest = resolve('dist/css', cssFileName);
+
+    if (fs.existsSync(src)) {
+        const cmd = `lessc ${src} ${dest}`;
+        try {
+            execSync(cmd);
+        } catch(e) {
+            console.warn(e);
+        }
+        send(cssFileName);
+        console.log('css', cssFileName);
+    } else {
+        fs.unlinkSync(dest);
+    }
+
+    let files = fs.readdirSync(resolve('css'));
+    files = files.map(filename => filename.replace('.less', '.css'));
+    fs.writeFileSync('dist/css.json', JSON.stringify({files}));
+}
+
+const files = fs.readdirSync(resolve('css'));
+emptyDirSync(resolve('dist/css'));
+files.filter(filename => filename.endsWith('.less')).forEach(compileLessFile);
+

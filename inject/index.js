@@ -9,6 +9,7 @@ import { getIframe } from "./iframe";
 import { createThemePicker, getColor } from "./sections/theme";
 import {createSection, sections} from "./sections/index";
 import "./event-handler";
+import { createCssElement } from "./sections/css";
 
 const themeDetected = getColor('--theme-colors-primary-wlv');
 const hasIframe = getIframe();
@@ -40,7 +41,7 @@ if ((hasIframe || themeDetected) && !isIframe && !isDemo) {
     ele.appendChild(sections);
 
     createSection('Theme', createThemePicker);
-    // createSection('Css', createCssElement);
+    createSection('Css', createCssElement);
 }
 
 function createCloseButton() {
@@ -82,7 +83,6 @@ function createCloseButton() {
 
     return a;
 }
-
 
 function makeDraggable(ele) {
     function draggable(e) {

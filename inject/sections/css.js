@@ -2,11 +2,25 @@ import { files } from '../../dist/css.json';
 import {isLocalhost} from "../globals";
 import {createButton} from "../on-clicks";
 
-console.log(files);
-
-const pathToFolder = isLocalhost ? 'css/' : 'dist/dist'
+const eles = {};
 export function createCssElement() {
     const ele = document.createElement('div');
-    files.forEach(filename => ele.appendChild(createButton(filename, () => console.log(filename))));
+    files.forEach(filename => {
+        const onClick = () => {
+            if (isLocalhost) {
+                window.z.loadFile(filename);
+            } else {
+                eles[filename]?.remove();
+
+                const style = document.createElement('link');
+                style.rel = 'stylesheet';
+                style.href = `https://zyrica-caspeco.github.io/dist/css/${filename}`;
+                document.head.appendChild(style);
+                eles[filename] = style;
+            }
+        };
+        const button = createButton(filename, onClick);
+        ele.appendChild(button);
+    });
     return ele;
 }

@@ -2,7 +2,7 @@ import { scriptSrc } from "./globals";
 
 export function getIframe() {
     const allIframes = [...document.querySelectorAll('iframe')];
-    return allIframes.find(iframe => iframe.src.includes('localhost') || iframe.src.includes('caspeco'));
+    return allIframes.find(iframe => iframe.src.includes('localhost') || iframe.src.includes('caspeco') && iframe.src.includes('booking'));
 }
 export function sendToIframe(message) {
     const iframe = getIframe();
@@ -28,7 +28,6 @@ const createIframe = () => {
     iframe.src = 'http://localhost:8080/?isWebBooking=true&system=se__testbb&unitId=14'
     iframe.id = 'localhostIframe';
     iframe.height = window.innerHeight * 0.75;
-    window.iframe = iframe;
 
     updateIframeWidth();
 }
