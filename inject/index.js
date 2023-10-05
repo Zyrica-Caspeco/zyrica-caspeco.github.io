@@ -1,6 +1,7 @@
 import "./booking-events.js";
 import { css, isIframe } from "./globals";
-import { isDemo } from "./brödernas-demo";
+import { isDemo as isDemoBrodernas } from "./brödernas-demo";
+import { isDemo as isDemoOlearys } from "./olearys-demo";
 import {
     createButton,
     printAllCaspecoElements,
@@ -10,6 +11,8 @@ import { createThemePicker, getColor } from "./sections/theme";
 import {createSection, sections} from "./sections/index";
 import "./event-handler";
 import { createCssElement } from "./sections/css";
+
+const isDemo = isDemoBrodernas || isDemoOlearys;
 
 const themeDetected = getColor('--theme-colors-primary-wlv');
 const hasIframe = getIframe();
