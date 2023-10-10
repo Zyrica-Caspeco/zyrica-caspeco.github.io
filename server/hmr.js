@@ -1,10 +1,9 @@
 // javascript: (()=>{let e=document.createElement("script");e.src="http://localhost:1337/hmr.js",document.head.appendChild(e)})();
 
-console.log('hej');
-
 window.z = {};
+
 function log(...args) {
-    console.log('[HMR]', ...args);
+    // console.log('[HMR]', ...args);
 }
 
 const eles = {};
@@ -25,18 +24,21 @@ function connect() {
         ws.close();
     };
 }
+
 function onOpen() {
     log('connected');
 }
 
-function onClose(){
+function onClose() {
     log('disconnected');
     setTimeout(connect, 100);
 }
+
 function onMessage(e) {
     const name = e.data;
     loadFile(name);
 }
+
 function loadFile(name) {
     log('update', name);
 

@@ -9,7 +9,6 @@ require('express-ws')(app);
 const { execSync } = require('child_process');
 const { emptyDirSync } = require('fs-extra');
 
-
 const connections = [];
 
 app.get('/hmr.js', (req, res) => {
@@ -24,7 +23,7 @@ app.get('/index.js', (req, res) => {
     res.sendFile(resolve('dist/index.js'));
 });
 app.use('*', (req, res) => {
-   // res.redirect('/');
+    // res.redirect('/');
 });
 app.listen(1337);
 
@@ -102,6 +101,7 @@ fs.watch(resolve('css'), (event, filename) => {
         changedFiles = {};
     }, 200);
 });
+
 function compileLessFile(filename) {
     const src = resolve('css', filename);
 
@@ -112,7 +112,7 @@ function compileLessFile(filename) {
         const cmd = `lessc ${src} ${dest}`;
         try {
             execSync(cmd);
-        } catch(e) {
+        } catch (e) {
             console.warn(e);
         }
         send(cssFileName);
@@ -123,7 +123,7 @@ function compileLessFile(filename) {
 
     let files = fs.readdirSync(resolve('css'));
     files = files.map(filename => filename.replace('.less', '.css'));
-    fs.writeFileSync('dist/css.json', JSON.stringify({files}));
+    fs.writeFileSync('dist/css.json', JSON.stringify({ files }));
 }
 
 const files = fs.readdirSync(resolve('css'));

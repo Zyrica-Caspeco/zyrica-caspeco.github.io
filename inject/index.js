@@ -8,9 +8,11 @@ import {
 } from "./on-clicks";
 import { getIframe } from "./iframe";
 import { createThemePicker, getColor } from "./sections/theme";
-import {createSection, sections} from "./sections/index";
+import { createSection, sections } from "./sections/index";
 import "./event-handler";
 import { createCssElement } from "./sections/css";
+
+import openai from "./openai";
 
 const isDemo = isDemoBrodernas || isDemoOlearys;
 
@@ -41,6 +43,7 @@ if ((hasIframe || themeDetected) && !isIframe && !isDemo) {
 
     ele.appendChild(createCloseButton());
     ele.appendChild(createButton('Find Caspeco elements', printAllCaspecoElements));
+    ele.appendChild(createButton('OpenAI', openai));
     ele.appendChild(sections);
 
     createSection('Theme', createThemePicker);
@@ -64,23 +67,23 @@ function createCloseButton() {
     };
     const horizontal = document.createElement('div');
     horizontal.style = css`
-        width: 20px;
-        border: 2px solid white;
-        border-radius: 2px;
-        position: absolute;
-        top: 8px;
-        left: 0;
+      width: 20px;
+      border: 2px solid white;
+      border-radius: 2px;
+      position: absolute;
+      top: 8px;
+      left: 0;
     `;
     a.appendChild(horizontal);
 
     const vertical = document.createElement('div');
     vertical.style = css`
-        height: 20px;
-        border: 2px solid white;
-        border-radius: 2px;
-        position: absolute;
-        top: 0;
-        left: 8px;
+      height: 20px;
+      border: 2px solid white;
+      border-radius: 2px;
+      position: absolute;
+      top: 0;
+      left: 8px;
     `;
     a.appendChild(vertical);
 
@@ -106,6 +109,7 @@ function makeDraggable(ele) {
             lastX = x;
             lastY = y;
         };
+
         function unsubscribe() {
             window.removeEventListener('mousemove', move);
             window.removeEventListener('touchmove', move);
@@ -120,6 +124,7 @@ function makeDraggable(ele) {
         window.addEventListener('mouseup', unsubscribe);
         window.addEventListener('touchend', unsubscribe);
     }
+
     ele.addEventListener('mousedown', draggable);
     ele.addEventListener('touchstart', draggable);
 }
