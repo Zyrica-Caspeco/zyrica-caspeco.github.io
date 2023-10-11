@@ -12,7 +12,7 @@ import { createSection, sections } from "./sections/index";
 import "./event-handler";
 import { createCssElement } from "./sections/css";
 
-import openai from "./openai";
+// import openai from "./openai";
 
 const isDemo = isDemoBrodernas || isDemoOlearys;
 
