@@ -2,7 +2,7 @@
 
 import { css } from "./globals";
 
-const silentMode = true;
+const silentMode = false;
 
 const script = document.createElement('script');
 script.type = 'application/javascript';
@@ -140,7 +140,7 @@ function setData(data) {
             ele.click();
             say('Jag hittade en tid som passar, var god dubbelkolla så att allt stämmer. Fyll sedan i dina kontaktuppgifter och klicka på boka för att slutföra din bokning.');
         } else {
-            say('Jag kunde inte hitta den tiden, försök igen.');
+            say(`Tyvärr fanns inget ledigt bord klockan ${data.time}. Är det någon annan tid som passar?`);
         }
     }
 }
