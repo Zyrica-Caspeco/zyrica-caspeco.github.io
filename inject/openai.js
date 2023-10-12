@@ -1,6 +1,8 @@
 /* global axios */
 
-const silentMode = false;
+import { css } from "./globals";
+
+const silentMode = true;
 
 const script = document.createElement('script');
 script.type = 'application/javascript';
@@ -41,18 +43,16 @@ function listen(msg) {
         model: 'gpt-3.5-turbo',
         temperature: 0,
     }
-    console.log('sending', data);
+    console.log('[USR]', msg);
     ws.send(JSON.stringify(data));
 }
 
 window.listen = listen;
 
 
-
-
 function say(msg) {
     if (silentMode) {
-        console.log('BOT', msg);
+        console.log('[BOT]', msg);
         messages.push({
             role: 'assistant',
             content: msg,
@@ -77,6 +77,7 @@ function say(msg) {
     } else {
         r.stop();
         button.textContent = 'Pratar';
+        console.log('[BOT]', msg);
         messages.push({
             role: 'assistant',
             content: msg,
@@ -88,17 +89,16 @@ let r;
 
 function setData(data) {
     function wait() {
-        console.log('wait');
         setTimeout(() => setData(data), 100);
     }
-    const step = document.querySelectorAll('.editChoice button').length;
-    console.log('step', step);
-    if (step === 0) { // amountGuests
 
+    const step = document.querySelectorAll('.editChoice button').length;
+    if (step === 0) { // amountGuests
         if (!data.amountGuests) {
             say('Hur många är ni?');
             return;
-        };
+        }
+        ;
         const eles = [...document.querySelectorAll('#webBookingStart input')];
         const max = parseInt([...eles].pop().value);
         let guests = parseInt(data.amountGuests);
@@ -108,7 +108,6 @@ function setData(data) {
         const target = eles.find(({ value }) => value === guests.toString());
         if (target) {
             target.click();
-            console.log('done');
         }
         wait();
     } else if (step === 1) { // date
@@ -128,7 +127,7 @@ function setData(data) {
         }
         wait();
     } else if (step === 2) { // time
-        if (!data.time)  {
+        if (!data.time) {
             say('Vilken tid vill du boka?');
             return;
         }
@@ -139,8 +138,7 @@ function setData(data) {
         const ele = [...document.querySelectorAll('#webBookingStart input')].find(e => e.nextSibling.innerText === data.time);
         if (ele) {
             ele.click();
-            console.log('done');
-            say('Dubbelkolla så att din bokningsinformationen är rätt. Fyll sedan i dina kontaktuppgifter och klicka på boka för att slutföra din bokning.');
+            say('Jag hittade en tid som passar, var god dubbelkolla så att allt stämmer. Fyll sedan i dina kontaktuppgifter och klicka på boka för att slutföra din bokning.');
         } else {
             say('Jag kunde inte hitta den tiden, försök igen.');
         }
@@ -148,6 +146,7 @@ function setData(data) {
 }
 
 let firstTime = true;
+
 function start() {
     button.textContent = 'Lyssnar';
     button.onclick = stop;
@@ -186,9 +185,17 @@ function stop() {
     messages = [];
     firstTime = true;
 }
+
 let button;
-function test () {
+
+function test() {
     button = document.createElement('button');
+    button.style = css`
+      color: white;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px 20px;
+      border-radius: 10px;
+    `
     button.textContent = 'Starta';
     button.onclick = start;
     const header = document.querySelector('header');
