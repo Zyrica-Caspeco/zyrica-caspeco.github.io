@@ -1,0 +1,441 @@
+// Color Variables
+@color-background: #FAFAFA;
+@color-onBackground: #0C0656;
+@color-backgroundDisabled: fade(@color-onBackground, 6%);
+@color-onBackgroundSubdued: fade(@color-onBackground, 48%);
+@color-onBackgroundBorder: fade(@color-onBackground, 24%);
+@color-onBackgroundHeader: @color-onBackground;
+
+@color-surface: #FFFFFF;
+@color-onSurface: #0C0656;
+@color-surfaceDisabled: fade(@color-onSurface, 6%);
+@color-onSurfaceSubdued: fade(@color-onSurface, 48%);
+@color-onSurfaceBorder: fade(@color-onSurface, 24%);
+@color-onSurfaceHeader: @color-onSurface;
+
+@color-primary: #4530C9;
+@color-primaryHover: #3726A1;
+@color-primaryActive: #291D79;
+@color-onPrimary: #FFFFFF;
+@color-primaryContainer: #ECEAFA;
+@color-onPrimaryContainer: #0C0656;
+
+@color-accent: #0269FF;
+@color-accentHover: #0254CC;
+@color-accentActive: #013F99;
+@color-accentActiveAlpha: fade(@color-accent, 12%);
+@color-accentHoverAlpha: fade(@color-accent, 16%);
+@color-onAccent: #FFFFFF;
+@color-accentContainer: #E6F0FF;
+@color-onAccentContainer: #012A66;
+
+
+html, body {
+  width: 100%;
+  height: 100%;
+  text-shadow: none;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: @color-onBackground;
+  text-transform: none;
+}
+
+
+body.desktop {
+  background: @color-background;
+
+  //Make sure we use correct typography
+  .framework_menu_item_header,
+  .framework_menu_item_header_text,
+  .framework_menu_item,
+  .framework_menu_subitem,
+  .modal_topBar,
+  .modal_mainArea .groupBox .groupBox_legend {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    text-shadow: none;
+    letter-spacing: inherit;
+    color: inherit;
+    text-transform: inherit;
+  }
+
+  //Make sure we show background color on correct element .body
+  .application,
+  .framework_mainArea,
+  .createScheduleView__wrapperEmptyState,
+  .groupBox,
+  .tableView__contentWrapper,
+  .tableView__row,
+  .tableView__headerCell {
+    background: none;
+  }
+
+  /*
+  framework_topBar
+  */
+
+  .framework_topBar {
+    height: 56px;
+    align-items: center;
+  }
+
+
+  // Framework Sidebar
+  .framework_sidebar {
+    background: @color-primaryContainer;
+    width: 260px;
+    min-width: 260px;
+  }
+
+  .framework_menu_item-active,
+  .framework_menu_item-active-payroll {
+    background-color: transparent;
+  }
+
+  .framework_menu_item_header {
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+
+    &:hover {
+      background-color: @color-backgroundDisabled;
+      text-decoration: underline;
+    }
+
+    &.framework_menu_item_header-active {
+      font-weight: 700;
+
+    }
+
+    .icon {
+      height: 1.5rem;
+      width: 1.5rem;
+      margin: 0;
+      color: @color-onBackground;
+    }
+
+  }
+
+  .framework_menu_item_header_space {
+    display: none;
+  }
+
+  .framework_menu_item_subitems {
+    padding-bottom: 0;
+
+    .activeIndicator {
+      display: none;
+    }
+
+  }
+
+  .framework_menu_subitem {
+    padding: 0 0 0 1.75rem !important;
+
+    &:hover {
+      background-color: @color-backgroundDisabled;
+      text-decoration: underline;
+    }
+
+    &.active {
+      background-color: transparent;
+      font-weight: 700;
+
+      &:hover {
+        text-decoration: none;
+        background-color: transparent;
+      }
+
+    }
+
+    .menuLabel {
+      display: block;
+      padding: 0.5rem 0 0.5rem 1.25rem;
+      border-left: 1px solid @color-onBackgroundSubdued;
+    }
+
+  }
+
+  .columnToggle__big {
+    display: none;
+  }
+
+  .framework_mainArea {
+    padding: 5rem 5rem 0 5rem;
+  }
+
+
+  /*
+  BUTTONS
+  */
+
+  .button {
+    background-color: @color-accent;
+    color: @color-onAccent;
+    border: 0;
+    border-radius: 10rem;
+    padding: 0 1rem;
+    height: 40px;
+    font-size: inherit;
+    font-weight: 500;
+    min-width: none;
+
+    &:hover {
+      background-color: @color-accentHover;
+    }
+
+    .icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: @color-onAccent;
+    }
+
+    //Variants
+    &.button-secondary {
+      background-color: @color-accentContainer;
+      color: @color-onAccentContainer;
+
+      &:hover {
+        background-color: @color-accentHover;
+        color: @color-onAccent;
+      }
+
+      .icon {
+        color: @color-onAccentContainer;
+      }
+    }
+
+    &.button-iconButton {
+      padding: 0;
+      background-color: transparent;
+      border-radius: 0;
+    }
+
+    //Sizes
+    &.button-large {
+      padding: 0 1.5rem;
+      height: 56px;
+    }
+  }
+
+  /*
+  Dropdown
+  */
+
+  .dropdownComponent_group {
+    background: @color-surface;
+    color: @color-onSurface;
+    border: 1px solid @color-onSurfaceBorder;
+    border-radius: 0.25rem;
+    padding: 0 0.75rem 0 1rem;
+    height: 40px;
+    gap: 0.5rem;
+  }
+
+  .dropdownComponent_value {
+    padding: 0;
+  }
+
+  .dropdownComponent_value_item {
+
+  }
+
+  .dropdownComponent_append {
+
+    .button {
+      background-color: transparent;
+      height: 1.5rem;
+      width: 1.5rem;
+      padding: 0;
+      border: 0;
+
+      &:hover {
+        background-color: transparent;
+        color: inherit;
+      }
+    }
+
+  }
+
+  /*
+  Inputs
+  */
+
+  .input_group {
+    height: auto;
+
+    .input {
+      display: block;
+      border-radius: 0;
+      color: @color-onSurface;
+      background-color: transparent;
+      line-height: inherit;
+      padding: 0;
+
+      &[disabled] {
+        color: @color-onSurfaceSubdued;
+      }
+
+      &[placeholder] {
+        color: @color-onSurface;
+      }
+    }
+
+    .innerInputContainer {
+      background-color: @color-surface;
+      color: @color-onSurface;
+      border: 1px solid @color-onSurfaceBorder;
+
+      &.innerInputContainer-disabled {
+        background-color: @color-surfaceDisabled;
+        color: @color-onSurfaceSubdued;
+        border-color: transparent;
+      }
+    }
+
+    .input_append {
+      border: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      min-width: auto;
+
+      .button {
+        background-color: transparent;
+        border-radius: 0;
+        padding: 0;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    .input_prepend {
+      border: 0;
+      gap: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+
+      .icon {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
+  .innerInputContainer {
+    display: flex;
+    height: 40px;
+    padding: 0 1rem;
+    align-items: center;
+    border: 1px solid @color-onSurfaceBorder;
+    background-color: @color-surface;
+    border-radius: 0.25rem;
+    gap: 0.5rem;
+  }
+
+
+  /*
+  Modals
+  */
+
+  .modal_alignHorizontal {
+
+  }
+
+  .modal_content {
+    background-color: @color-surface;
+    border-radius: 1rem;
+    box-shadow: 0px 8px 40px 7px #0000003D;
+  }
+
+  .modal_topBar {
+    min-height: 1.5rem;
+    padding: 0.5rem 1.5rem;
+  }
+
+  .modal_mainArea {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+
+    .groupBox {
+      padding: 1rem;
+      border: none;
+      background-color: @color-backgroundDisabled;
+
+      .groupBox_legend {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .verticalLayout,
+  .verticalLayout_column {
+    gap: 1.5rem;
+  }
+
+
+  //Bokning / Administrera / Artikelregister
+  .groupBox {
+    margin: 0;
+  }
+
+  .groupBox_content {
+    padding: 0;
+  }
+
+  .tableView__contentWrapper {
+    border-radius: 0;
+    border: 1px solid @color-onBackgroundBorder;
+  }
+
+  table {
+    border-color: @color-onBackgroundBorder;
+  }
+
+  .tableView__row {
+    font-weight: inherit;
+    box-shadow: none;
+
+    &:hover {
+
+      .tableView__cell {
+        background-color: @color-accentContainer;
+      }
+    }
+  }
+
+  .tableView__headerCell,
+  .tableView__cell {
+    height: 2.5rem;
+    padding: 0 0.5rem;
+    border: 1px solid @color-onBackgroundBorder;
+    border-top: none;
+    font-size: 0.875rem;
+    color: inherit;
+    font-weight: inherit;
+  }
+
+  .tableView__headerRow--stickyHeader .tableView__headerCell {
+    background-color: @color-background;
+  }
+
+  table > thead > tr > th:nth-of-type(1),
+  table > tbody > tr > td:nth-of-type(1) {
+    font-weight: 700;
+  }
+
+  .tableView__toolbar {
+    margin: 1.5rem 0;
+  }
+
+  .tableView__toolbar .searchBar {
+    color: inherit;
+  }
+
+  .tableView__toolbar > div:first-of-type > *:not(:last-child) {
+    margin-right: 1rem;
+  }
+
+}

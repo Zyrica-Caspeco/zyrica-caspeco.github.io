@@ -10,7 +10,7 @@ script.src = `https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js`;
 document.head.appendChild(script);
 
 
-const resturantName = document.querySelector('h1').innerText;
+const resturantName = document.querySelector('h1')?.innerText || '';
 
 let ws;
 

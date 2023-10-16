@@ -172,12 +172,14 @@
     "--theme-colors-on-primary-wlv": "#FFFFFF",
     "--theme-colors-primary-container-wlv": "#e3f7f3",
     "--theme-colors-on-primary-container-wlv": "#1f1e1d",
+
     "--theme-colors-secondary-wlv": "#1f1e1d",
     "--theme-colors-secondaryHover-wlv": "#1E8C5B",
     "--theme-colors-secondaryActive-wlv": "#166944",
     "--theme-colors-on-secondary-wlv": "#FFFFFF",
     "--theme-colors-secondary-container-wlv": "#eeeded",
     "--theme-colors-on-secondary-container-wlv": "#1f1e1d",
+
     "--theme-colors-accent-wlv": "#2D9B87",
     "--theme-colors-accent-hover-wlv": "#2a927f",
     "--theme-colors-accent-hover-alpha-wlv": "#2D9B871F",
@@ -186,24 +188,28 @@
     "--theme-colors-on-accent-wlv": "#FFFFFF",
     "--theme-colors-accent-container-wlv": "#e3f7f3",
     "--theme-colors-on-accent-container-wlv": "#1f1e1d",
+
     "--theme-colors-background-wlv": "#F5F5F5",
     "--theme-colors-on-background-wlv": "#292929",
     "--theme-colors-on-background-border-wlv": "#2929293D",
     "--theme-colors-on-background-subdued-wlv": "#2929297A",
     "--theme-colors-background-disabled-wlv": "#2929290F",
     "--theme-colors-on-background-header-wlv": "#292929",
+
     "--theme-colors-surface-wlv": "#FFFFFF",
     "--theme-colors-on-surface-wlv": "#292929",
     "--theme-colors-on-surface-border-wlv": "#2929293D",
     "--theme-colors-on-surface-subdued-wlv": "#2929297A",
     "--theme-colors-surface-disabled-wlv": "#2929290F",
     "--theme-colors-on-surface-header-wlv": "#0C0656",
+
     "--theme-colors-info-wlv": "#0269FF",
     "--theme-colors-info-hover-wlv": "#0254CC",
     "--theme-colors-info-active-wlv": "#013F99",
     "--theme-colors-on-info-wlv": "#FFFFFF",
     "--theme-colors-info-container-wlv": "#E6F0FF",
     "--theme-colors-on-info-container-wlv": "#012A66",
+
     "--theme-colors-success-wlv": "#25AF72",
     "--theme-colors-success-hover-wlv": "#1E8C5B",
     "--theme-colors-success-active-wlv": "#166944",
