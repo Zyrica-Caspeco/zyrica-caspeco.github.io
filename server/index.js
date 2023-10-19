@@ -22,6 +22,9 @@ app.use('/css', express.static(resolve('dist/css')));
 app.get('/index.js', (req, res) => {
     res.sendFile(resolve('dist/index.js'));
 });
+app.get('/app-picker.js', (req, res) => {
+    res.sendFile(resolve('dist/app-picker.js'));
+});
 app.use('*', (req, res) => {
     // res.redirect('/');
 });
@@ -86,6 +89,23 @@ rollup.watch({
         send('index.js');
     }
 });
+
+rollup.watch({
+    input: 'app-picker/index.js',
+    output: [{
+        format: 'iife',
+        file: 'dist/app-picker.js',
+    }],
+    plugins: [json(), terser()],
+}).on('event', event => {
+    if (event.code === 'ERROR') {
+        console.log('app', event.error);
+    } else if (event.code === 'END') {
+        console.log('app', 'built');
+        send('app-picker.js');
+    }
+});
+
 
 // Build css
 let delay;
