@@ -1,0 +1,10 @@
+{
+  "name": "app-picker",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vite": "^4.5.0"
+  }
+}

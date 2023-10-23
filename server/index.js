@@ -9,6 +9,7 @@ require('express-ws')(app);
 const { execSync } = require('child_process');
 const { emptyDirSync } = require('fs-extra');
 
+
 const connections = [];
 
 app.get('/hmr.js', (req, res) => {
@@ -21,9 +22,6 @@ app.ws('/hmr', (ws, req) => {
 app.use('/css', express.static(resolve('dist/css')));
 app.get('/index.js', (req, res) => {
     res.sendFile(resolve('dist/index.js'));
-});
-app.get('/app-picker.js', (req, res) => {
-    res.sendFile(resolve('dist/app-picker.js'));
 });
 app.use('*', (req, res) => {
     // res.redirect('/');
@@ -90,6 +88,7 @@ rollup.watch({
     }
 });
 
+// Build app-picker.js
 rollup.watch({
     input: 'app-picker/index.js',
     output: [{
@@ -105,6 +104,7 @@ rollup.watch({
         send('app-picker.js');
     }
 });
+// Build templates.html
 
 
 // Build css
