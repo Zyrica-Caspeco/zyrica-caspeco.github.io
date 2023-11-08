@@ -1,12 +1,13 @@
+@import '../../css/360.less';
+
 app-picker-menu-item {
   position: static;
-  display: flex;
   font-family: Inter, 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  padding: 10px;
-
+  padding: 16px;
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -14,8 +15,8 @@ app-picker-menu-item {
   &:hover {
     cursor: pointer;
     background: #0269FF1F;
-
   }
+
 
   .circle {
     height: 24px;
@@ -44,25 +45,25 @@ app-picker-menu-item {
 
 
 app-picker-modal-item {
-  display: flex;
   font-family: Inter, 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  padding: 16px;
 
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
+  > a {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
 
-  &:hover {
-    cursor: pointer;
-    background: #0269FF1F;
-
-    .content {
-      text-decoration: underline;
+    &:hover {
+      cursor: pointer;
+      background: #0269FF1F;
+      text-decoration: none;
     }
   }
+
 
   .circle {
     height: 56px;
@@ -108,6 +109,12 @@ app-picker-modal-item {
   left: 16px;
   background: white;
   z-index: 1;
+
+  .divider {
+    height: 1px;
+    background: #c5c3d7;
+    margin: 16px;
+  }
 
   &.open {
     display: block;

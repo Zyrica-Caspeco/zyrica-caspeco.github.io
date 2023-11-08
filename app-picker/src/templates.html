@@ -8,16 +8,26 @@
 </template>
 
 <template id="app-picker-modal-item">
-    <div class="circle"><span class="abbreviation">{{abbreviation}}</span></div>
-    <div class="content">
-        <span class="name">{{name}}</span>
-        <span class="description">{{description}}</span>
-    </div>
+    <a href="">
+        <div class="circle"><span class="abbreviation">{{abbreviation}}</span></div>
+        <div class="content">
+            <span class="name">{{name}}</span>
+            <span class="description">{{description}}</span>
+        </div>
+    </a>
 </template>
 
 <div id="app-picker-modal">
     <app-picker-modal-item
-            url="https://cloud.caspeco.se/home#Personal"
+            url="https://cloud.caspeco.se/home"
+            color="#0c0656"
+            abbreviation="Ad"
+            name="Admin"
+            description="Hantera centrala register och få en översikt av ditt varumärke">
+    </app-picker-modal-item>
+    <div class="divider"></div>
+    <app-picker-modal-item
+            url="https://cloud.caspeco.se/payroll/staff/timereport/main#Personal"
             color="#4530C9"
             abbreviation="Pe"
             name="Personal"
@@ -31,14 +41,14 @@
             description="Hantera meny för dina kassor och gäster">
     </app-picker-modal-item>
     <app-picker-modal-item
-            url="https://cloud.caspeco.se/home#Bokning"
+            url="https://cloud.caspeco.se/booking/timetable#Bokning"
             color="#25AF72"
             abbreviation="Bo"
             name="Bokning"
             description="Hantera bokningar av bord, bowling etc.">
     </app-picker-modal-item>
     <app-picker-modal-item
-            url="https://cloud.caspeco.se/home#Analys"
+            url="https://cloud.caspeco.se/air/landingPage#Analys"
             color="#EE657A"
             abbreviation="An"
             name="Analys"
