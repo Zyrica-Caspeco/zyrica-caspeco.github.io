@@ -59,7 +59,7 @@ const mount = () => {
     document.body.classList.remove('admin', 'personal', 'kassa', 'bokning', 'analys');
 
     const container = document.querySelector(".framework_menu_container") || document.querySelector('.menu-container');
-    const systemSelect = document.getElementById('main.selectSystem.dropdownListView');
+    const systemSelect = document.getElementById('main.selectSystem.dropdownListView')  || document.querySelector('.menu-container');;
     if (!container || !systemSelect) {
         if (count++ < 300) setTimeout(mount, 100);
         return;
