@@ -142,6 +142,8 @@ const mount = () => {
             navbarFooter.appendChild(logout);
 
             container.insertBefore(systemSelect, container.firstChild);
+
+            sideBar.style.opacity = 1;
         }
     }
 }
