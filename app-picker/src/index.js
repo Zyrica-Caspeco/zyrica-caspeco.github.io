@@ -149,11 +149,19 @@ const mount = () => {
     }
 }
 
-if (document.location.href.includes('cloud'))
-    mount();
-
-window.mountAppPicker = mount;
-
+let count2 = 0;
 window.setAppPickerBackofficeUrl = (url) => {
+    const ele = document.querySelector('app-picker-modal-item[name="Kassa"]');
+    if (!ele && count2++ < 300) {
+        setTimeout(() => window.setAppPickerBackofficeUrl(url), 100);
+        return;
+    }
     document.querySelector('app-picker-modal-item[name="Kassa"]').setAttribute('url', url);
 }
+
+
+if (document.location.href.includes('cloud')) {
+    mount();
+}
+
+window.mountAppPicker = mount;
