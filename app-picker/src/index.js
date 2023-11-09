@@ -149,14 +149,27 @@ const mount = () => {
     }
 }
 
-let count2 = 0;
-window.setAppPickerBackofficeUrl = (url) => {
-    const ele = document.querySelector('app-picker-modal-item[name="Kassa"]');
-    if (!ele && count2++ < 300) {
-        setTimeout(() => window.setAppPickerBackofficeUrl(url), 100);
-        return;
-    }
-    document.querySelector('app-picker-modal-item[name="Kassa"]').setAttribute('url', url);
+const querySelectorPromise = (selector) => {
+    let resolve;
+    const promise = new Promise((res) => {
+        resolve = res;
+    });
+    let count = 0;
+    const check = () => {
+        const ele = document.querySelector(selector);
+        if (!ele && count++ < 300) {
+            setTimeout(check, 100);
+            return;
+        }
+        resolve(ele);
+    };
+    check();
+    return promise;
+}
+
+window.setAppPickerBackofficeUrl = async (url) => {
+    const ele = await querySelectorPromise('app-picker-modal-item[name="Kassa"]');
+    ele.setAttribute('url', url);
 }
 
 
