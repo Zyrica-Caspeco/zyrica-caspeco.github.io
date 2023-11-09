@@ -146,7 +146,7 @@ const mount = () => {
     }
 }
 
-if (document.location.includes('cloud'))
+if (document.location.href.includes('cloud'))
     mount();
 
 window.mountAppPicker = mount;
