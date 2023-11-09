@@ -53,6 +53,12 @@ customElements.define(
     class AppPickerModalItem extends HTMLElement {
         static observedAttributes = ['url'];
 
+        attributeChangedCallback(name, oldValue, newValue) {
+            if (name === 'url') {
+                this.querySelector('a').setAttribute('href', newValue);
+            }
+        }
+
         constructor() {
             super();
             const template = document.getElementById('app-picker-modal-item').content.cloneNode(true);
@@ -64,11 +70,6 @@ customElements.define(
             this.appendChild(template);
         }
 
-        attributeChangedCallback(name, oldValue, newValue) {
-            if (name === 'url') {
-                this.querySelector('a').setAttribute('href', newValue);
-            }
-        }
     }
 );
 
@@ -152,3 +153,7 @@ if (document.location.href.includes('cloud'))
     mount();
 
 window.mountAppPicker = mount;
+
+window.setAppPickerBackofficeUrl = (url) => {
+    document.querySelector('app-picker-modal-item[name="Kassa"]').setAttribute('url', url);
+}
