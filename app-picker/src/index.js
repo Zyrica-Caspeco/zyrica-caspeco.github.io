@@ -17,18 +17,30 @@ customElements.define(
         constructor() {
             super();
             const template = document.getElementById('app-picker-menu-item').content.cloneNode(true);
+            const modal = template.querySelector('.app-picker-modal');
             template.querySelector('.circle').style.backgroundColor = this.getAttribute('color');
             template.querySelector('.abbreviation').innerHTML = this.getAttribute('abbreviation');
             template.querySelector('.name').innerHTML = this.getAttribute('name');
             this.appendChild(template);
 
+            document.body.appendChild(modal);
+
+            const cloud = this.getAttribute('cloud') || 'https://cloud.caspeco.se';
+            modal.querySelector('[name="Admin"]').setAttribute('url', cloud + '/home');
+            modal.querySelector('[name="Personal"]').setAttribute('url', cloud + '/payroll/staff/timereport/main#Personal');
+            modal.querySelector('[name="Bokning"]').setAttribute('url', cloud + '/booking/timetable#Bokning');
+            modal.querySelector('[name="Analys"]').setAttribute('url', cloud + '/air/landingPage#Analys');
+
+            const backoffice = this.getAttribute('backoffice') || 'https://admin-checkout.dev.caspeco.net';
+            modal.querySelector('[name="Kassa"]').setAttribute('url', backoffice);
+
             const close = () => {
-                document.getElementById('app-picker-modal').classList.remove('open');
+                modal.classList.remove('open');
                 document.removeEventListener('click', close);
             };
 
             this.addEventListener('click', () => {
-                document.getElementById('app-picker-modal').classList.toggle('open');
+                modal.classList.toggle('open');
                 setTimeout(() => {
                     document.addEventListener('click', close);
                 });
@@ -39,6 +51,8 @@ customElements.define(
 customElements.define(
     'app-picker-modal-item',
     class AppPickerModalItem extends HTMLElement {
+        static observedAttributes = ['url'];
+
         constructor() {
             super();
             const template = document.getElementById('app-picker-modal-item').content.cloneNode(true);
@@ -49,17 +63,22 @@ customElements.define(
             template.querySelector('a').setAttribute('href', this.getAttribute('url'));
             this.appendChild(template);
         }
+
+        attributeChangedCallback(name, oldValue, newValue) {
+            if (name === 'url') {
+                this.querySelector('a').setAttribute('href', newValue);
+            }
+        }
     }
 );
 
 let first = true;
 let count = 0;
 const mount = () => {
-
     document.body.classList.remove('admin', 'personal', 'kassa', 'bokning', 'analys');
 
     const container = document.querySelector(".framework_menu_container") || document.querySelector('.menu-container');
-    const systemSelect = document.getElementById('main.selectSystem.dropdownListView')  || document.querySelector('.menu-container');;
+    const systemSelect = document.getElementById('main.selectSystem.dropdownListView') || document.querySelector('.menu-container');
     if (!container || !systemSelect) {
         if (count++ < 300) setTimeout(mount, 100);
         return;
@@ -127,4 +146,7 @@ const mount = () => {
     }
 }
 
-mount();
+if (document.location.includes('cloud'))
+    mount();
+
+window.mountAppPicker = mount;
