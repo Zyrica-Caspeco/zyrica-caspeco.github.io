@@ -10,12 +10,15 @@ function createDomNode() {
   const shadow = node.attachShadow({ mode: "open" });
   document.body.appendChild(node);
 
+  // TODO: ladda in css.less i shadow dommen
+  // TODO: skapa en vy för medelanden
+
   const button = document.createElement("button");
   button.textContent = "Start";
   button.onclick = () => {
-    say(
-      "Hej och välkommen till Caspecos AI assistent, vad kan jag hjlpa till med!",
-    );
+    ws.send("Jag skulle vilja uppdatera priset på en pizza");
+    // listen();
+    // say("Hej och välkommen till Caspecos AI Assistent, vad kan jag hjlpa till med?");
   };
   shadow.appendChild(button);
 

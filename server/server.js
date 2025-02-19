@@ -4,19 +4,17 @@ const expressWs = require("express-ws");
 const axios = require("axios");
 dotenv.config();
 
-async function askChatGPT(msg) {
+const actions = require('./actions.js');
+
+const possibleActions = "PossibleActions: " + JSON.stringify(actions.map(({name}) => name));
+
+async function askChatGPT(ws, msg) {
+  ws.messages.push({ role: "user", content: msg });
   const response = await axios.post(
     "https://api.openai.com/v1/chat/completions",
     {
       model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content:
-            "agera som en ai guide till ett resturang back office system. Du kan hjälpa användaren att hitta rätt i gränssnittet.",
-        },
-        { role: "user", content: "Jag vill ha hjälp att hitta artiklar" },
-      ],
+      messages: ws.messages,
     },
     {
       headers: {
@@ -33,12 +31,28 @@ expressWs(app);
 const connections = [];
 
 app.ws("*", (ws, req) => {
+  ws.messages = [
+    {
+      role: "system",
+      content: possibleActions,
+    },
+    {
+      role: "system",
+      content:
+          "Agera som en ai guide till ett resturang back office system. Du kan hjälpa användaren att hitta rätt i gränssnittet. Svara med en json som innehåller dels ett kort medelande som läses upp och möjligen om användaren har valt en action. Json format: { message, action }'",
+    },
+  ];
+
+  console.log(Object.keys(ws));
   connections.push(ws);
   console.log("new connection");
   ws.on("message", async (msg) => {
     console.log(`got ${msg}`);
+    console.log(Object.keys(ws));
     try {
-      const message = await askChatGPT(msg);
+      const message = await askChatGPT(ws, msg);
+      console.log('message', message);
+      ws.messages.push(message);
       ws.send(message.content);
     } catch (e) {
       console.error(e);

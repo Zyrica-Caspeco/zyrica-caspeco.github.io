@@ -4,15 +4,26 @@ const silentMode = false;
 const ws = new WebSocket("ws://localhost:31337");
 window.ws = ws;
 ws.onmessage = (event) => {
-  say(event.data);
+  const { message, action } = JSON.parse(event.data);
+  // todo: handle action, ladda actions.js och välj rätt action och surfa till url efter det
+  say(message);
 };
 
 const messages = [];
 
-function start() {
-  console.log("Start");
+function listen() {
   setButtonText("Lyssnar");
+  const r = new window.webkitSpeechRecognition();
+  r.lang = "sv-SE";
+  r.continuous = false;
+  r.onresult = (e) => {
+    const text = e.results[e.resultIndex][0].transcript;
+    setButtonText("Tänker");
+    ws.send(text);
+  };
+  r.start();
 }
+window.listen = listen;
 
 function say(msg) {
   if (silentMode) {
@@ -35,7 +46,7 @@ function say(msg) {
   const utterance = new SpeechSynthesisUtterance();
   utterance.voice = voice;
   utterance.text = "aaa " + msg;
-  utterance.onend = start;
+  utterance.onend = listen;
 
   if (speechSynthesis.pending) {
     setTimeout(() => say(msg), 100);

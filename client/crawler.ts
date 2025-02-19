@@ -1,3 +1,5 @@
+// TODO: gör så att crawlern kan spara om dommen i rätt format så att mankan skicka den till chatgpt för att generera actions.js
+
 function createCopyAndRemoveRedundantThings(node: Node) {
   if (!node) return "";
   // Klona hela dokumentet
@@ -29,24 +31,15 @@ function createCopyAndRemoveRedundantThings(node: Node) {
 }
 
 function waitFor() {
-  const hej = createCopyAndRemoveRedundantThings(
+  const cleanDom = createCopyAndRemoveRedundantThings(
     document.querySelector(".mainContainer"),
   );
-  const isDone = hej?.includes("Checkout");
+  const isDone = cleanDom?.includes("Checkout");
   if (!isDone) {
     // console.log('waiting')
     // console.log('waiting hej',hej)
     setTimeout(waitFor, 100);
   } else {
-    console.log(hej);
+    console.log(cleanDom);
   }
 }
-
-window.siteMap = {
-  domain: "PRIM",
-  url: "https://rms.dev.caspeco.net/prim/",
-  actions: [
-    { name: "List articles", url: "/articles" },
-    { name: "List categories", url: "/categories" },
-  ],
-};
