@@ -1,17 +1,17 @@
 {
+  "name": "zyrica-caspeco.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "prestart": "npm install",
-    "start": "nodemon server --watch server/index.js"
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-terser": "^0.4.3",
-    "axios": "^1.5.1",
-    "express": "^4.18.2",
-    "express-ws": "^5.0.2",
-    "fs-extra": "^11.1.1",
-    "less": "^4.2.0",
-    "nodemon": "^3.0.1",
-    "rollup": "^3.28.0"
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9",
+    "vite": "^6.1.0"
   }
 }

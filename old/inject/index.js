@@ -1,18 +1,18 @@
 import "./booking-events.js";
-import { css, isIframe } from "./globals";
-import { isDemo as isDemoBrodernas } from "./brödernas-demo";
-import { isDemo as isDemoOlearys } from "./olearys-demo";
+import { css, isIframe } from "./globals.js";
+import { isDemo as isDemoBrodernas } from "./brödernas-demo.js";
+import { isDemo as isDemoOlearys } from "./olearys-demo.js";
 import {
     createButton,
     printAllCaspecoElements,
-} from "./on-clicks";
-import { getIframe } from "./iframe";
-import { createThemePicker, getColor } from "./sections/theme";
+} from "./on-clicks.js";
+import { getIframe } from "./iframe.js";
+import { createThemePicker, getColor } from "./sections/theme.js";
 import { createSection, sections } from "./sections/index";
-import "./event-handler";
-import { createCssElement } from "./sections/css";
+import "./event-handler.js";
+import { createCssElement } from "./sections/css.js";
 
-import openai from "./openai";
+import openai from "./openai.js";
 
 const isDemo = isDemoBrodernas || isDemoOlearys;
 

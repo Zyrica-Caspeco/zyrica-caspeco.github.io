@@ -31,7 +31,7 @@ customElements.define(
             modal.querySelector('[name="Bokning"]').setAttribute('url', cloud + '/booking/timetable#Bokning');
             modal.querySelector('[name="Analys"]').setAttribute('url', cloud + '/air/landingPage#Analys');
 
-            const backoffice = this.getAttribute('backoffice') || 'https://admin-checkout.dev.caspeco.net';
+            const backoffice = this.getAttribute('backoffice') || 'https:/rms.dev.caspeco.net/checkout';
             modal.querySelector('[name="Kassa"]').setAttribute('url', backoffice);
 
             const close = () => {
