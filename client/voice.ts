@@ -1,6 +1,12 @@
 console.log("voice.ts");
 const silentMode = false;
 
+const ws = new WebSocket("ws://localhost:31337");
+window.ws = ws;
+ws.onmessage = (event) => {
+  say(event.data);
+};
+
 const messages = [];
 
 function start() {
