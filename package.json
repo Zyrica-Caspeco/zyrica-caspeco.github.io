@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "vite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -11,7 +11,9 @@
   "description": "",
   "dependencies": {
     "express": "^4.21.2",
+    "less": "^4.2.2",
     "nodemon": "^3.1.9",
+    "prettier": "^3.5.1",
     "vite": "^6.1.0"
   }
 }
