@@ -1,5 +1,6 @@
 console.log("client");
 function setButtonText(text) {
+  window.button.disabled = text !== "Lyssna";
   window.button.textContent = text;
 }
 
@@ -15,7 +16,7 @@ function createDomNode() {
   lyssna.onclick = () => {
     listen();
   };
-  lyssna.className = "settings-button"
+  lyssna.className = "settings-button";
 
   const prata = document.createElement("button");
   prata.textContent = "Uppläsning av";
@@ -23,7 +24,7 @@ function createDomNode() {
     window.silentMode = !window.silentMode;
     prata.textContent = "Uppläsning " + (window.silentMode ? "av" : "på");
   };
-  prata.className = "settings-button"
+  prata.className = "settings-button";
 
   window.button = lyssna;
 
@@ -76,9 +77,9 @@ function createDomNode() {
 
   const bottomContainer = document.createElement("div");
   bottomContainer.classList.add("bottom-container");
-  bottomContainer.appendChild(prata)
-  bottomContainer.appendChild(lyssna)
-  bottomContainer.appendChild(closeButton)
+  bottomContainer.appendChild(prata);
+  bottomContainer.appendChild(lyssna);
+  bottomContainer.appendChild(closeButton);
 
   inputContainer.appendChild(inputField);
   inputContainer.appendChild(sendButton);
@@ -109,7 +110,7 @@ function createDomNode() {
     if (url) {
       const a = document.createElement("a");
       a.href = url;
-      a.innerText = "\n Klicka här för att komma dit."
+      a.innerText = "\n Klicka här för att komma dit.";
       a.classList.add("url-link");
       messageBubble.appendChild(a);
     }
