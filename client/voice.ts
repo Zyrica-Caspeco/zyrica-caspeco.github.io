@@ -93,11 +93,12 @@ const actions = [
 ];
 
 console.log("voice.ts");
-const silentMode = true;
+window.silentMode = true;
 
 const ws = new WebSocket("ws://localhost:31337");
 window.ws = ws;
 ws.onmessage = (event) => {
+  setButtonText("Lyssna");
   console.log("got", event.data);
   let message, actionName;
   try {
@@ -134,7 +135,7 @@ window.listen = listen;
 
 function say(msg) {
   addAssistantSpeechBubble(msg);
-  if (silentMode) {
+  if (window.silentMode) {
     return;
   }
 
@@ -149,13 +150,13 @@ function say(msg) {
   const utterance = new SpeechSynthesisUtterance();
   utterance.voice = voice;
   utterance.text = msg;
-  utterance.onend = listen;
+  // utterance.onend = listen;
 
   if (speechSynthesis.pending) {
     setTimeout(() => say(msg), 100);
   } else {
     speechSynthesis.speak(utterance);
-    setButtonText("Pratar");
+    // setButtonText("Pratar");
   }
 }
 

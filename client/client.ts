@@ -20,16 +20,29 @@ function createDomNode() {
 
   // TODO: ladda in css.less i shadow dommen
 
-  const button = document.createElement("button");
-  button.textContent = "Start";
-  button.onclick = () => {
+  const lyssna = document.createElement("button");
+  lyssna.textContent = "Lyssna";
+  lyssna.onclick = () => {
     // ws.send("Jag skulle vilja uppdatera priset på en pizza");
-    // listen();
+    listen();
     // say("Hej och välkommen till Caspecos AI Assistent, vad kan jag hjlpa till med?");
   };
-  shadow.appendChild(button);
+  shadow.appendChild(lyssna);
 
-  window.button = button;
+  const prata = document.createElement("button");
+  prata.textContent = "Uppläsning av";
+  prata.onclick = () => {
+    window.silentMode = !window.silentMode;
+    prata.textContent = "Uppläsning " + (window.silentMode ? "av" : "på");
+    if (!window.silentMode) {
+      say(
+        "Hej och välkommen till Caspecos AI Assistent, vad kan jag hjlpa till med?",
+      );
+    }
+  };
+  shadow.appendChild(prata);
+
+  window.button = lyssna;
 
   // Create the chat button
   const chatButton = document.createElement("button");
@@ -129,10 +142,9 @@ function createDomNode() {
   window.addUserSpeechBubble = addUserSpeechBubble;
   window.addAssistantSpeechBubble = addAssistantSpeechBubble;
 
-
   createSpeechBubble(
     "Hej och välkommen till Caspecos AI-Assistent, vad kan jag hjälpa till med?",
-    "assistant"
+    "assistant",
   );
 
   // Inject styles
@@ -220,7 +232,7 @@ function createDomNode() {
         background-color: red;
     }
 </style>
-`
+`,
   );
 }
 
