@@ -60,7 +60,7 @@ function start() {
       start();
     };
     say(
-      `Välkommen till ${resturantName}! Jag är en AI som kan hjälpa dig att boka bord.`,
+      `Välkommen till ${restaurantName}! Jag är en AI som kan hjälpa dig att hantera din restaurang.`,
     );
   }
 }
@@ -76,4 +76,3 @@ function stop() {
   firstTime = true;
 }
 
-let button;

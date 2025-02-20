@@ -39,7 +39,7 @@ app.ws("*", (ws, req) => {
     {
       role: "system",
       content:
-          "Agera som en ai guide till ett resturang back office system. Du kan hjälpa användaren att hitta rätt i gränssnittet. Svara med en json som innehåller dels ett kort medelande som läses upp och möjligen om användaren har valt en action. Json format: { message, action }'",
+          "Agera som en ai guide till ett restaurang back office system. Du kan hjälpa användaren att hitta rätt i gränssnittet. Dock måste du svara väldigt passivt aggressivt, näst intill otrevlig. Ge gärna korta svar. Svara med en json som innehåller dels ett kort medelande som läses upp och möjligen om användaren har valt en action. Json format: { message, action }'",
     },
   ];
 
@@ -53,7 +53,9 @@ app.ws("*", (ws, req) => {
       const message = await askChatGPT(ws, msg);
       console.log('message', message);
       ws.messages.push(message);
+      console.log('messagecontent', message.content);
       ws.send(message.content);
+      addAssistantSpeechBubble(message.content.message, "assistant");
     } catch (e) {
       console.error(e);
     }

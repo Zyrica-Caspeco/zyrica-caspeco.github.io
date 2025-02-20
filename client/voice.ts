@@ -1,5 +1,5 @@
 console.log("voice.ts");
-const silentMode = false;
+const silentMode = true;
 
 const ws = new WebSocket("ws://localhost:31337");
 window.ws = ws;
@@ -20,6 +20,7 @@ function listen() {
     const text = e.results[e.resultIndex][0].transcript;
     setButtonText("Tänker");
     ws.send(text);
+    addUserSpeechBubble(text);
   };
   r.start();
 }
@@ -27,7 +28,9 @@ window.listen = listen;
 
 function say(msg) {
   if (silentMode) {
-    console.log("[BOT]", msg);
+    const textWithPrefix = `[BOT] ${msg}`;
+    console.log(textWithPrefix);
+    addAssistantSpeechBubble(textWithPrefix);
     messages.push({
       role: "assistant",
       content: msg,
@@ -45,7 +48,7 @@ function say(msg) {
 
   const utterance = new SpeechSynthesisUtterance();
   utterance.voice = voice;
-  utterance.text = "aaa " + msg;
+  utterance.text = msg;
   utterance.onend = listen;
 
   if (speechSynthesis.pending) {
