@@ -10,29 +10,20 @@ function createDomNode() {
   const shadow = node.attachShadow({ mode: "open" });
   document.body.appendChild(node);
 
-  // TODO: ladda in css.less i shadow dommen
-
   const lyssna = document.createElement("button");
   lyssna.textContent = "Lyssna";
   lyssna.onclick = () => {
-    // ws.send("Jag skulle vilja uppdatera priset på en pizza");
     listen();
-    // say("Hej och välkommen till Caspecos AI Assistent, vad kan jag hjlpa till med?");
   };
-  shadow.appendChild(lyssna);
+  lyssna.className = "settings-button"
 
   const prata = document.createElement("button");
   prata.textContent = "Uppläsning av";
   prata.onclick = () => {
     window.silentMode = !window.silentMode;
     prata.textContent = "Uppläsning " + (window.silentMode ? "av" : "på");
-    if (!window.silentMode) {
-      // say(
-      //   "Hej och välkommen till Caspecos AI Assistent, vad kan jag hjlpa till med?",
-      // );
-    }
   };
-  shadow.appendChild(prata);
+  prata.className = "settings-button"
 
   window.button = lyssna;
 
@@ -83,13 +74,19 @@ function createDomNode() {
   closeButton.innerText = "Stäng";
   closeButton.addEventListener("click", closeForm);
 
+  const bottomContainer = document.createElement("div");
+  bottomContainer.classList.add("bottom-container");
+  bottomContainer.appendChild(prata)
+  bottomContainer.appendChild(lyssna)
+  bottomContainer.appendChild(closeButton)
+
   inputContainer.appendChild(inputField);
   inputContainer.appendChild(sendButton);
 
   formContainer.appendChild(chatTitle);
   formContainer.appendChild(chatMessages);
   formContainer.appendChild(inputContainer);
-  formContainer.appendChild(closeButton);
+  formContainer.appendChild(bottomContainer);
   chatPopup.appendChild(formContainer);
   document.body.appendChild(chatPopup);
 
@@ -144,101 +141,6 @@ function createDomNode() {
   createSpeechBubble(
     "Hej och välkommen till Caspecos AI-Assistent, vad kan jag hjälpa till med?",
     "assistant",
-  );
-
-  // Inject styles
-  document.head.insertAdjacentHTML(
-    "beforeend",
-    `
-<style>
-    .open-button {
-        background-color: #93B9e1;
-        color: white;
-        padding: 16px 20px;
-        border: none;
-        cursor: pointer;
-        opacity: 0.8;
-        position: fixed;
-        top: 10px;
-        right: 28px;
-        width: 200px;
-        border-radius: 20px;
-    }
-    .form-popup {
-        display: none;
-        position: fixed;
-        top: 0;
-        right: 15px;
-        border: 3px solid #f1f1f1;
-        z-index: 9;
-        background: white;
-        min-width: 250px;
-        max-width: 400px;
-        min-height: 300px;
-        padding: 10px;
-        border-radius: 10px;
-    }
-    .form-container {
-        display: flex;
-        flex-direction: column;
-        max-height: 500px;
-    }
-    .chat-messages {
-        min-height: 200px;
-        overflow-y: auto;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        display: flex;
-        flex-direction: column;
-    }
-    .speech-bubble-user {
-        background: #04AA6D;
-        color: white;
-        padding: 10px;
-        border-radius: 10px;
-        margin: 5px 0;
-        max-width: 80%;
-        align-self: flex-end;
-        gap: 5px;
-    }
-    .speech-bubble-assistant {
-        background: #0096C7;
-        color: white;
-        padding: 10px;
-        border-radius: 10px;
-        margin: 5px 0;
-        max-width: 80%;
-        align-self: flex-start;
-    }
-    .input-container {
-        display: flex;
-        gap: 5px;
-        padding: 10px;
-    }
-    .chat-input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-    .form-container .btn {
-        background-color: #04AA6D;
-        color: white;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-    .form-container .cancel {
-        background-color: red;
-    }
-    .url-link {
-        color: white;
-        text-decoration: underline;
-        cursor: pointer;
-    }
-</style>
-`,
   );
 }
 
