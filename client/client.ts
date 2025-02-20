@@ -3,14 +3,6 @@ function setButtonText(text) {
   window.button.textContent = text;
 }
 
-// function addUserSpeechBubble(text) {
-//   createSpeechBubble(text, "user");
-// }
-
-// function addAssistantSpeechBubble(text) {
-//   createSpeechBubble(text, "assistant");
-// }
-
 function createDomNode() {
   const node = document.createElement("div");
   node.id = "ai-helper";
@@ -35,9 +27,9 @@ function createDomNode() {
     window.silentMode = !window.silentMode;
     prata.textContent = "Uppläsning " + (window.silentMode ? "av" : "på");
     if (!window.silentMode) {
-      say(
-        "Hej och välkommen till Caspecos AI Assistent, vad kan jag hjlpa till med?",
-      );
+      // say(
+      //   "Hej och välkommen till Caspecos AI Assistent, vad kan jag hjlpa till med?",
+      // );
     }
   };
   shadow.appendChild(prata);
@@ -125,6 +117,7 @@ function createDomNode() {
       messageBubble.appendChild(a);
     }
     chatMessages.appendChild(messageBubble);
+    messageBubble.scrollIntoView();
   }
 
   function sendMessage() {

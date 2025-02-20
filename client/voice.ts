@@ -128,7 +128,8 @@ function listen() {
 }
 window.listen = listen;
 
-function say(msg, url) {
+function say(msg, url, skip) {
+  if (!skip) 
   addAssistantSpeechBubble(msg, url);
   if (window.silentMode) {
     return;
@@ -136,7 +137,7 @@ function say(msg, url) {
 
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) {
-    setTimeout(() => say(msg));
+    setTimeout(() => say(msg, url, true));
     return;
   }
 
@@ -148,7 +149,7 @@ function say(msg, url) {
   // utterance.onend = listen;
 
   if (speechSynthesis.pending) {
-    setTimeout(() => say(msg), 100);
+    setTimeout(() => say(msg, url, true), 100);
   } else {
     speechSynthesis.speak(utterance);
     // setButtonText("Pratar");
