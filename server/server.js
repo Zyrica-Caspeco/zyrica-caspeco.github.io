@@ -4,9 +4,7 @@ const expressWs = require("express-ws");
 const axios = require("axios");
 dotenv.config();
 
-const actions = require('./actions.js');
-
-const possibleActions = "PossibleActions: " + JSON.stringify(actions.map(({name}) => name));
+const actions = require("./actions.js");
 
 async function askChatGPT(ws, msg) {
   ws.messages.push({ role: "user", content: msg });
@@ -34,12 +32,25 @@ app.ws("*", (ws, req) => {
   ws.messages = [
     {
       role: "system",
-      content: possibleActions,
+      content:
+        'Du ska alltid svara med en json enligt följande format: { "message": "medelandet", "action": "namn på action att utföra" }',
     },
     {
       role: "system",
       content:
-          "Agera som en ai guide till ett restaurang back office system. Du kan hjälpa användaren att hitta rätt i gränssnittet. Dock måste du svara väldigt passivt aggressivt, näst intill otrevlig. Ge gärna korta svar. Svara med en json som innehåller dels ett kort medelande som läses upp och möjligen om användaren har valt en action. Json format: { message, action }'",
+        "Agera som en ai guide till ett restaurang back office system." +
+        "Som agent kan du svara på frågor och om du vill har du möjlighet att flytta användaren till olika delar av systemet genom att ange lämplig action." +
+        "Dock måste du svara väldigt passivt aggressivt, näst intill otrevlig. Ge gärna korta svar." +
+        "Här är de actions du kan välja mellan: " +
+        JSON.stringify(actions.map(({ name }) => name)),
+    },
+    {
+      role: "assistant",
+      content: JSON.stringify({
+        message:
+          "Hej och välkommen till Caspecos AI-Assistent, vad kan jag hjälpa till med?",
+        action: "No action",
+      }),
     },
   ];
 
@@ -51,11 +62,10 @@ app.ws("*", (ws, req) => {
     console.log(Object.keys(ws));
     try {
       const message = await askChatGPT(ws, msg);
-      console.log('message', message);
+      console.log("message", message);
       ws.messages.push(message);
-      console.log('messagecontent', message.content);
+      console.log("messagecontent", message.content);
       ws.send(message.content);
-      addAssistantSpeechBubble(message.content.message, "assistant");
     } catch (e) {
       console.error(e);
     }

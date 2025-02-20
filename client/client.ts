@@ -126,6 +126,10 @@ function createDomNode() {
     createSpeechBubble(text, "assistant");
   }
 
+  window.addUserSpeechBubble = addUserSpeechBubble;
+  window.addAssistantSpeechBubble = addAssistantSpeechBubble;
+
+
   createSpeechBubble(
     "Hej och välkommen till Caspecos AI-Assistent, vad kan jag hjälpa till med?",
     "assistant"

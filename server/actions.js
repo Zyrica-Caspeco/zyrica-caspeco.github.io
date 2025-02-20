@@ -1,4 +1,5 @@
 module.exports = [
+    { name: "No action"},
     { name: "Artikelregister - artiklar", url: "https://rms.dev.caspeco.net/prim/articles" },
     { name: "Artikelregister - kattegorier", url: "https://rms.dev.caspeco.net/prim/categories" },
     { name: "Översikt", url: "https://rms.dev.caspeco.net/dashboard"},
