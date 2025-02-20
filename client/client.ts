@@ -109,7 +109,7 @@ function createDomNode() {
     chatPopup.style.display = "none";
   }
 
-  function createSpeechBubble(text, role) {
+  function createSpeechBubble(text, role, url) {
     const messageBubble = document.createElement("div");
     if (role === "user") {
       messageBubble.classList.add("speech-bubble-user");
@@ -117,6 +117,13 @@ function createDomNode() {
       messageBubble.classList.add("speech-bubble-assistant");
     }
     messageBubble.innerText = text;
+    if (url) {
+      const a = document.createElement("a");
+      a.href = url;
+      a.innerText = "\n Klicka här för att komma dit."
+      a.classList.add("url-link");
+      messageBubble.appendChild(a);
+    }
     chatMessages.appendChild(messageBubble);
   }
 
@@ -124,19 +131,18 @@ function createDomNode() {
     const messageText = inputField.value.trim();
     if (messageText === "") return;
 
-    createSpeechBubble(messageText, "user");
-    // addUserSpeechBubble(messageText);
+    createSpeechBubble(messageText, "user", undefined);
     ws.send(messageText);
     inputField.value = "";
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
   function addUserSpeechBubble(text) {
-    createSpeechBubble(text, "user");
+    createSpeechBubble(text, "user", undefined);
   }
 
-  function addAssistantSpeechBubble(text) {
-    createSpeechBubble(text, "assistant");
+  function addAssistantSpeechBubble(text, url) {
+    createSpeechBubble(text, "assistant", url);
   }
 
   window.addUserSpeechBubble = addUserSpeechBubble;
@@ -182,6 +188,7 @@ function createDomNode() {
     .form-container {
         display: flex;
         flex-direction: column;
+        max-height: 500px;
     }
     .chat-messages {
         min-height: 200px;
@@ -199,6 +206,7 @@ function createDomNode() {
         margin: 5px 0;
         max-width: 80%;
         align-self: flex-end;
+        gap: 5px;
     }
     .speech-bubble-assistant {
         background: #0096C7;
@@ -230,6 +238,11 @@ function createDomNode() {
     }
     .form-container .cancel {
         background-color: red;
+    }
+    .url-link {
+        color: white;
+        text-decoration: underline;
+        cursor: pointer;
     }
 </style>
 `,

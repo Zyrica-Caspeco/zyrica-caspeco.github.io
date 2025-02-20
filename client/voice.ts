@@ -110,12 +110,7 @@ ws.onmessage = (event) => {
   }
 
   const action = actions.find((a) => a.name === actionName);
-  if (action?.url) {
-    // document.location.href = action.url;
-    // todo: lägg in knapp
-  }
-  // todo: handle action, ladda actions.js och välj rätt action och surfa till url efter det
-  say(message);
+  say(message, action?.url);
 };
 
 function listen() {
@@ -133,8 +128,8 @@ function listen() {
 }
 window.listen = listen;
 
-function say(msg) {
-  addAssistantSpeechBubble(msg);
+function say(msg, url) {
+  addAssistantSpeechBubble(msg, url);
   if (window.silentMode) {
     return;
   }
